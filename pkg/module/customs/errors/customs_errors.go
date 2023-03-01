@@ -8,7 +8,6 @@ const (
 	ERR0002 = "ERROR0002"
 	ERR0003 = "ERROR0003"
 
-
 	TYPE0001 = "TYPE0001"
 
 	DB0001 = "DB0001"
@@ -25,6 +24,11 @@ const (
 	SE0001 = "SE0001"
 	SE0002 = "SE0002"
 	SE0003 = "SE0003"
+	SE0004 = "SE0004"
+
+	REPO0001 = "REPO0001"
+	REPO0002 = "REPO0002"
+
 
 	UNDEFINED = "UNDEFINED"
 )
@@ -50,6 +54,11 @@ var ErrMap = map[string]string{
 	SE0001: "couldn't load secret",
 	SE0002: "invalid password",
 	SE0003: "couldn't issue token",
+	SE0004: "couldn't to model",
+
+	REPO0001: "couldn't to entity",
+	REPO0002: "Failed to create user",
+	
 
 	UNDEFINED: "undefined",
 }
