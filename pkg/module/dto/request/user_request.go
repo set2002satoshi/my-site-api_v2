@@ -8,17 +8,17 @@ type (
 		ID int `json:"id"`
 	}
 	UserCreateRequest struct {
-		Email    string `json:"email"`
-		Name     string `json:"name"`
-		Password string `json:"pass"`
-		Roll     string `json:"roll"`
+		Email    string `form:"email" json:"email"`
+		Name     string `form:"name" json:"name"`
+		Password string `form:"pass" json:"pass"`
+		Roll     string `form:"roll" json:"roll"`
 	}
 
 	UserUpdateRequest struct {
 		ID       int    `json:"id"`
 		Email    string `json:"email"`
 		Name     string `json:"name"`
-		Password string `json:"password"`
+		Password string `json:"pass"`
 		Roll     string `json:"roll"`
 		Revision int    `json:"revision"`
 	}

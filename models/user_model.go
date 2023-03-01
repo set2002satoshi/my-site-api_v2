@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type activeUserModel struct {
+type ActiveUserModel struct {
 	userId     types.IDENTIFICATION
 	nickname   string
 	email      string
@@ -31,8 +31,8 @@ func NewActiveUserModel(
 	revision int,
 	createdAt time.Time,
 	updatedAt time.Time,
-) (*activeUserModel, error) {
-	aum := new(activeUserModel)
+) (*ActiveUserModel, error) {
+	aum := new(ActiveUserModel)
 
 	var err error
 	err = errors.Combine(err, aum.setUserId(userId))
@@ -41,65 +41,65 @@ func NewActiveUserModel(
 	err = errors.Combine(err, aum.setPassword(password))
 	err = errors.Combine(err, aum.setRoll(roll))
 	if err != nil {
-		return new(activeUserModel), err
+		return new(ActiveUserModel), err
 	}
 
 	com, err := types.NewAuditTrail(revision, createdAt, updatedAt)
 	if err != nil {
-		return new(activeUserModel), err
+		return new(ActiveUserModel), err
 	}
 
 	err = errors.Combine(err, aum.setAuditTrail(com))
 	if err != nil {
-		return new(activeUserModel), err
+		return new(ActiveUserModel), err
 	}
 
 	images, err := types.NewImageTypeFileOrURL(iconFile, iconURL, iconImageFlag)
 	if err != nil {
-		return new(activeUserModel), err
+		return new(ActiveUserModel), err
 	}
 
 	err = errors.Combine(err, aum.setIcon(images))
 	if err != nil {
-		return new(activeUserModel), err
+		return new(ActiveUserModel), err
 	}
 
 	if err := aum.Validation(); err != nil {
-		return new(activeUserModel), err
+		return new(ActiveUserModel), err
 	}
 
 	return aum, nil
 }
 
-func (aum *activeUserModel) GetUserId() types.IDENTIFICATION {
+func (aum *ActiveUserModel) GetUserId() types.IDENTIFICATION {
 	return aum.userId
 }
 
-func (aum *activeUserModel) GetNickname() string {
+func (aum *ActiveUserModel) GetNickname() string {
 	return aum.nickname
 }
 
-func (aum *activeUserModel) GetEmail() string {
+func (aum *ActiveUserModel) GetEmail() string {
 	return aum.email
 }
 
-func (aum *activeUserModel) GetPassword() string {
+func (aum *ActiveUserModel) GetPassword() string {
 	return string(aum.password)
 }
 
-func (aum *activeUserModel) GetIcon() *types.ImageTypeFileOrURL {
+func (aum *ActiveUserModel) GetIcon() *types.ImageTypeFileOrURL {
 	return aum.icon
 }
 
-func (aum *activeUserModel) GetRoll() types.AccessROLL {
+func (aum *ActiveUserModel) GetRoll() types.AccessROLL {
 	return aum.roll
 }
 
-func (aum *activeUserModel) GetAuditTrail() *types.AuditTrail {
+func (aum *ActiveUserModel) GetAuditTrail() *types.AuditTrail {
 	return aum.auditTrail
 }
 
-func (aum *activeUserModel) setUserId(userId int) error {
+func (aum *ActiveUserModel) setUserId(userId int) error {
 	i, err := types.NewIDENTIFICATION(userId)
 	if err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
@@ -108,17 +108,17 @@ func (aum *activeUserModel) setUserId(userId int) error {
 	return nil
 }
 
-func (aum *activeUserModel) setNickname(nickname string) error {
+func (aum *ActiveUserModel) setNickname(nickname string) error {
 	aum.nickname = nickname
 	return nil
 }
 
-func (aum *activeUserModel) setEmail(email string) error {
+func (aum *ActiveUserModel) setEmail(email string) error {
 	aum.email = email
 	return nil
 }
 
-func (aum *activeUserModel) setPassword(password string) error {
+func (aum *ActiveUserModel) setPassword(password string) error {
 	pass, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	if err != nil {
 		return err
@@ -128,12 +128,12 @@ func (aum *activeUserModel) setPassword(password string) error {
 
 }
 
-func (aum *activeUserModel) setIcon(icon *types.ImageTypeFileOrURL) error {
+func (aum *ActiveUserModel) setIcon(icon *types.ImageTypeFileOrURL) error {
 	aum.icon = icon
 	return nil
 }
 
-func (aum *activeUserModel) setRoll(roll string) error {
+func (aum *ActiveUserModel) setRoll(roll string) error {
 	rl, err := types.NewAccessROLL(roll)
 	if err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.EN0003, err.Error())
@@ -142,11 +142,11 @@ func (aum *activeUserModel) setRoll(roll string) error {
 	return nil
 }
 
-func (aum *activeUserModel) setAuditTrail(auditTrail *types.AuditTrail) error {
+func (aum *ActiveUserModel) setAuditTrail(auditTrail *types.AuditTrail) error {
 	aum.auditTrail = auditTrail
 	return nil
 }
 
-func (aum *activeUserModel) Validation() error {
+func (aum *ActiveUserModel) Validation() error {
 	return nil
 }

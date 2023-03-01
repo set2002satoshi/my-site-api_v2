@@ -1,6 +1,10 @@
 package response
 
-import "github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/errors"
+import (
+	"time"
+
+	"github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/errors"
+)
 
 type (
 	FindAllActiveUserResponse struct {
@@ -61,7 +65,26 @@ type (
 
 type (
 	ActiveUserEntity struct {
+		UserId    int       `json:"user_id"`
+		Nickname  string    `json:"nickname"`
+		Email     string    `json:"email"`
+		Password  string    `json:"password"`
+		IconURL   string    `json:"icon_url"`
+		Roll      string    `json:"roll"`
+		Revision  int       `json:"revisions"`
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
 	}
 	HistoryUserEntity struct {
+		UserId        int       `json:"user_id"`
+		HistoryUserID int       `json:"history_user_id"`
+		Nickname      string    `json:"nickname"`
+		Email         string    `json:"email"`
+		Password      string    `json:"password"`
+		IconURL       string    `json:"icon_url"`
+		Roll          string    `json:"roll"`
+		Revision      int       `json:"revisions"`
+		CreatedAt     time.Time `json:"created_at"`
+		Updated       time.Time `json:"updated_at"`
 	}
 )
