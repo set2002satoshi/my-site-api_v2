@@ -24,8 +24,9 @@ func NewActiveUserModel(
 	nickname string,
 	email string,
 	password string,
-	iconFile *multipart.FileHeader,
+	iconFile multipart.File,
 	iconURL string,
+	imgKey string,
 	iconImageFlag bool,
 	roll string,
 	revision int,
@@ -54,7 +55,7 @@ func NewActiveUserModel(
 		return new(ActiveUserModel), err
 	}
 
-	images, err := types.NewImageTypeFileOrURL(iconFile, iconURL, iconImageFlag)
+	images, err := types.NewImageTypeFileOrURL(iconFile, iconURL, imgKey, iconImageFlag)
 	if err != nil {
 		return new(ActiveUserModel), err
 	}

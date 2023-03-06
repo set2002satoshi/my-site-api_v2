@@ -9,6 +9,7 @@ const (
 	INITIAL_REVISION = 1
 	DEFAULT_NAME     = "anonymous"
 	DEFAULT_URL      = ""
+	DEFAULT_KEY      = ""
 )
 
 type IDENTIFICATION int
