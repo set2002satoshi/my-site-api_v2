@@ -35,8 +35,8 @@ const (
 
 var ErrMap = map[string]string{
 	ERR0000: "error code undetermined",
-	// ERR0001: "failure BindJSON",
-	// ERR0002: "failure to Model",
+	ERR0001: "failure BindJSON",
+	ERR0002: "failure to Model",
 	// ERR0003: "couldn't get userID",
 
 	TYPE0001: "id is less than or equal to zero",

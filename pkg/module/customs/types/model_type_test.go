@@ -52,6 +52,7 @@ func TestImageTypeFileOrURL(t *testing.T) {
 	type args struct {
 		// ImgFile *multipart.FileHeader,
 		ImgURL       string
+		ImgKey       string
 		DataTypeFlag bool
 	}
 	tests := []struct {
@@ -64,6 +65,7 @@ func TestImageTypeFileOrURL(t *testing.T) {
 			args: args{
 				// ImgFile:      nil,
 				ImgURL:       "http://iamge.iamge",
+				ImgKey:       "iam_key",
 				DataTypeFlag: true,
 			},
 			want: true,
@@ -73,6 +75,7 @@ func TestImageTypeFileOrURL(t *testing.T) {
 			args: args{
 				// ImgFile:      nil,
 				ImgURL:       "http://iamge.iamge",
+				ImgKey:       "iam_key",
 				DataTypeFlag: false,
 			},
 			want: false,
@@ -83,6 +86,7 @@ func TestImageTypeFileOrURL(t *testing.T) {
 			if _, err := NewImageTypeFileOrURL(
 				nil,
 				tt.args.ImgURL,
+				tt.args.ImgKey,
 				tt.args.DataTypeFlag,
 			); (err != nil) == tt.want {
 				t.Errorf("NewAuditTrail() = %v, want %v", err, tt.want)

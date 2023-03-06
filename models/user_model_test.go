@@ -16,6 +16,7 @@ func TestActiveUserModel(t *testing.T) {
 	i := &types.ImageTypeFileOrURL{
 		ImgFile:      nil,
 		ImgURL:       "http://iamge.iamge",
+		ImgKey:       "iam_key",
 		DataTypeFlag: true,
 	}
 	type args struct {
@@ -28,8 +29,8 @@ func TestActiveUserModel(t *testing.T) {
 		auditTrail *types.AuditTrail
 	}
 	tests := []struct {
-		name string
-		args args
+		name    string
+		args    args
 		wantErr bool
 	}{
 		{
@@ -81,6 +82,7 @@ func TestActiveUserModel(t *testing.T) {
 				tt.args.password,
 				tt.args.icon.ImgFile,
 				tt.args.icon.ImgURL,
+				tt.args.icon.ImgKey,
 				tt.args.icon.DataTypeFlag,
 				tt.args.roll,
 				int(tt.args.auditTrail.Revision),

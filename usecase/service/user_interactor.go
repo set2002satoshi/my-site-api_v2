@@ -1,7 +1,7 @@
 package service
 
 import (
-	c "github.com/set2002satoshi/my-site-api_v2/interfaces/controllers"
+	"github.com/gin-gonic/gin"
 
 	"github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/errors"
 	service "github.com/set2002satoshi/my-site-api_v2/pkg/module/service/aws/s3"
@@ -16,9 +16,9 @@ type UserInteractor struct {
 	UserRepo repo.UserRepository
 }
 
-func (ui UserInteractor) Register(ctx c.Context, obj *models.ActiveUserModel) (*models.ActiveUserModel, error) {
+func (ui UserInteractor) Register(ctx *gin.Context, obj *models.ActiveUserModel) (*models.ActiveUserModel, error) {
 	db := ui.DB.Connect()
-	imgURL, err := service.UploadImage(obj.GetIcon().GetImgFile())
+	imgKey, imgURL, err := service.UploadUserImage("user", obj.GetNickname(), obj.GetEmail(), obj.GetIcon().GetImgFile())
 	if err != nil {
 		return new(models.ActiveUserModel), err
 	}
@@ -29,6 +29,7 @@ func (ui UserInteractor) Register(ctx c.Context, obj *models.ActiveUserModel) (*
 		obj.GetPassword(),
 		nil,
 		imgURL,
+		imgKey,
 		true,
 		string(obj.GetRoll()),
 		int(obj.GetAuditTrail().GetRevision()),
@@ -36,16 +37,15 @@ func (ui UserInteractor) Register(ctx c.Context, obj *models.ActiveUserModel) (*
 		obj.GetAuditTrail().GetUpdatedAt(),
 	)
 	if err != nil {
-		return new(models.ActiveUserModel), errors.NewCustomError()
+		err = errors.Combine(err, service.DeleteUserImage(imgKey))
+		return new(models.ActiveUserModel), err
 	}
 
 	created, err := ui.UserRepo.Create(db, um)
 	if err != nil {
-		txErr := service.DeleteImage(obj.GetIcon().GetImgURL())
-		if txErr != nil {
-			return new(models.ActiveUserModel), txErr
-		}
+		err = errors.Combine(err, service.DeleteUserImage(imgKey))
 		return new(models.ActiveUserModel), err
 	}
+
 	return created, nil
 }

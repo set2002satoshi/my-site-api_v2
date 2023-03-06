@@ -1,16 +1,16 @@
 package user
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
-	c "github.com/set2002satoshi/my-site-api_v2/interfaces/controllers"
+	"github.com/gin-gonic/gin"
 	"github.com/set2002satoshi/my-site-api_v2/models"
 	"github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/errors"
 	"github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/types"
 	"github.com/set2002satoshi/my-site-api_v2/pkg/module/dto/request"
 	"github.com/set2002satoshi/my-site-api_v2/pkg/module/dto/response"
+	"github.com/set2002satoshi/my-site-api_v2/pkg/module/service/util"
 )
 
 type (
@@ -19,7 +19,7 @@ type (
 	}
 )
 
-func (uc *UserController) Create(ctx c.Context) {
+func (uc *UserController) Create(ctx *gin.Context) {
 	req := &request.UserCreateRequest{}
 	res := &CreateActiveUserResponse{}
 
@@ -27,12 +27,11 @@ func (uc *UserController) Create(ctx c.Context) {
 		ctx.JSON(http.StatusOK, errors.Response(errors.Wrap(errors.NewCustomError(), errors.ERR0001, err.Error()), res))
 		return
 	}
-	fmt.Println(req)
 	// skip Validation
 
-	reqModel, err := uc.cToModel(ctx, req)
+	reqModel, err := uc.createToModel(ctx, req)
 	if err != nil {
-		ctx.JSON(http.StatusOK, errors.Response(errors.Wrap(errors.NewCustomError(), errors.ERR0001, err.Error()), res))
+		ctx.JSON(http.StatusOK, errors.Response(errors.Wrap(errors.NewCustomError(), errors.ERR0002, err.Error()), res))
 		return
 	}
 
@@ -41,12 +40,13 @@ func (uc *UserController) Create(ctx c.Context) {
 		ctx.JSON(http.StatusOK, errors.Response(errors.Wrap(errors.NewCustomError(), errors.ERR0000, err.Error()), res))
 		return
 	}
+
 	res.Result = response.ActiveUserResult{User: uc.convertActiveUserToDTO(createdUser)}
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (uc *UserController) cToModel(ctx c.Context, req *request.UserCreateRequest) (*models.ActiveUserModel, error) {
-	file, err := ctx.FormFile("icon")
+func (uc *UserController) createToModel(ctx *gin.Context, req *request.UserCreateRequest) (*models.ActiveUserModel, error) {
+	file, _, err := util.FormFile(ctx, "icon")
 	if err != nil {
 		return new(models.ActiveUserModel), err
 	}
@@ -58,6 +58,7 @@ func (uc *UserController) cToModel(ctx c.Context, req *request.UserCreateRequest
 		req.Password,
 		file,
 		types.DEFAULT_URL,
+		types.DEFAULT_KEY,
 		false,
 		req.Roll,
 		types.INITIAL_REVISION,

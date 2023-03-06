@@ -61,14 +61,16 @@ func (at *AuditTrail) setUpdatedAt(updatedAt time.Time) error {
 }
 
 type ImageTypeFileOrURL struct {
-	ImgFile      *multipart.FileHeader
+	ImgFile      multipart.File
 	ImgURL       string
+	ImgKey       string
 	DataTypeFlag bool
 }
 
 func NewImageTypeFileOrURL(
-	imgFile *multipart.FileHeader,
-	imgURL string,
+	imgFile multipart.File,
+	imgURL,
+	imgKey string,
 	dataTypeFlag bool,
 ) (*ImageTypeFileOrURL, error) {
 	i := new(ImageTypeFileOrURL)
@@ -76,6 +78,7 @@ func NewImageTypeFileOrURL(
 	var err error
 	err = errors.Combine(err, i.setImgFile(imgFile))
 	err = errors.Combine(err, i.setImgURL(imgURL))
+	err = errors.Combine(err, i.setImgKey(imgKey))
 	err = errors.Combine(err, i.setDataTypeFlag(dataTypeFlag))
 
 	if err != nil {
@@ -88,7 +91,7 @@ func NewImageTypeFileOrURL(
 
 }
 
-func (i *ImageTypeFileOrURL) GetImgFile() *multipart.FileHeader {
+func (i *ImageTypeFileOrURL) GetImgFile() multipart.File {
 	return i.ImgFile
 }
 
@@ -96,17 +99,26 @@ func (i *ImageTypeFileOrURL) GetImgURL() string {
 	return i.ImgURL
 }
 
+func (i *ImageTypeFileOrURL) GetImgKey() string {
+	return i.ImgKey
+}
+
 func (i *ImageTypeFileOrURL) GetDataTypeFlag() bool {
 	return i.DataTypeFlag
 }
 
-func (i *ImageTypeFileOrURL) setImgFile(imgFile *multipart.FileHeader) error {
+func (i *ImageTypeFileOrURL) setImgFile(imgFile multipart.File) error {
 	i.ImgFile = imgFile
 	return nil
 }
 
 func (i *ImageTypeFileOrURL) setImgURL(imgURL string) error {
 	i.ImgURL = imgURL
+	return nil
+}
+
+func (i *ImageTypeFileOrURL) setImgKey(key string) error {
+	i.ImgKey = key
 	return nil
 }
 
@@ -117,7 +129,7 @@ func (i *ImageTypeFileOrURL) setDataTypeFlag(dataTypeFlag bool) error {
 
 func (i *ImageTypeFileOrURL) validation() error {
 	if i.DataTypeFlag {
-		if i.ImgURL == "" {
+		if i.ImgURL == "" || i.ImgKey == "" {
 			return errors.NewCustomError(errors.EN0006)
 		}
 	}

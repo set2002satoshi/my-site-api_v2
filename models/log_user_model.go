@@ -8,18 +8,18 @@ import (
 )
 
 type logUserModel struct {
-	historyUserId types.IDENTIFICATION
-	activeUserId  types.IDENTIFICATION
-	nickname      string
-	email         string
-	password      []byte
-	icon          string
-	roll          types.AccessROLL
-	auditTrail    *types.AuditTrail
+	Id           types.IDENTIFICATION
+	activeUserId types.IDENTIFICATION
+	nickname     string
+	email        string
+	password     []byte
+	icon         string
+	roll         types.AccessROLL
+	auditTrail   *types.AuditTrail
 }
 
 func NewLogUserModel(
-	historyUserId int,
+	Id int,
 	activeIdUserId int,
 	nickname string,
 	email string,
@@ -33,7 +33,7 @@ func NewLogUserModel(
 	lum := new(logUserModel)
 
 	var err error
-	err = errors.Combine(err, lum.setHistoryUserId(historyUserId))
+	err = errors.Combine(err, lum.setId(Id))
 	err = errors.Combine(err, lum.setActiveUserId(activeIdUserId))
 	err = errors.Combine(err, lum.setNickname(nickname))
 	err = errors.Combine(err, lum.setEmail(email))
@@ -55,8 +55,8 @@ func NewLogUserModel(
 	return lum, nil
 
 }
-func (lum *logUserModel) GetHistoryUserId() types.IDENTIFICATION {
-	return lum.historyUserId
+func (lum *logUserModel) GetId() types.IDENTIFICATION {
+	return lum.Id
 }
 
 func (lum *logUserModel) GetActiveUserId() types.IDENTIFICATION {
@@ -87,12 +87,12 @@ func (lum *logUserModel) GetAuditTrail() *types.AuditTrail {
 	return lum.auditTrail
 }
 
-func (lum *logUserModel) setHistoryUserId(historyUserId int) error {
-	i, err := types.NewIDENTIFICATION(historyUserId)
+func (lum *logUserModel) setId(Id int) error {
+	i, err := types.NewIDENTIFICATION(Id)
 	if err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
 	}
-	lum.historyUserId = i
+	lum.Id = i
 	return nil
 }
 
@@ -101,7 +101,7 @@ func (lum *logUserModel) setActiveUserId(activeUserId int) error {
 	if err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
 	}
-	lum.historyUserId = i
+	lum.Id = i
 	return nil
 }
 
