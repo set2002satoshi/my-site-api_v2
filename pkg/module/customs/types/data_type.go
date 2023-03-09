@@ -22,7 +22,7 @@ func NewIDENTIFICATION(id int) (IDENTIFICATION, error) {
 }
 
 func NewOneOrMoreIDENTIFICATION(id int) (IDENTIFICATION, error) {
-	if id == 0 {
+	if id <= 0 {
 		return 0, fmt.Errorf("couldn't setting negative number or zero")
 	}
 	return NewIDENTIFICATION(id)

@@ -20,7 +20,7 @@ type (
 
 		Errors []errors.ErrorInfo
 	}
-	DeleteActiveBlogResponse struct {
+	DeleteByIdActiveBlogResponse struct {
 		Errors []errors.ErrorInfo
 	}
 )

@@ -4,7 +4,7 @@ type (
 	UserFindByIdRequest struct {
 		Id int `json:"id"`
 	}
-	UserDeleteRequest struct {
+	UserDeleteByIdRequest struct {
 		Id int `json:"id"`
 	}
 	UserCreateRequest struct {

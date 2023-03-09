@@ -3,7 +3,7 @@ package entities
 import "time"
 
 type HistoryUserEntity struct {
-	Id           int
+	Id           int `gorm:"primaryKey"`
 	ActiveUserId int
 	Nick         string
 	Email        string

@@ -62,6 +62,20 @@ func TestHistoryUserModel(t *testing.T) {
 			},
 			wantErr: false,
 		},
+		{
+			name: "ng (activeId zero)",
+			args: args{
+				historyUserId: -1,
+				activeUserId:  0,
+				nickname:      "",
+				email:         "",
+				password:      "",
+				icon:          i,
+				roll:          "member",
+				auditTrail:    a,
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

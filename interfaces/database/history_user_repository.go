@@ -31,13 +31,11 @@ func (hur *HistoryUserRepository) Create(db *gorm.DB, user *models.HistoryUserMo
 }
 
 func (hur *HistoryUserRepository) DeleteById(db *gorm.DB, id int) error {
-	var hue *entities.HistoryUserEntity
-	if err := db.Unscoped().Delete(hue, id).Error; err != nil {
+	if err := db.Unscoped().Delete(&entities.HistoryUserEntity{}, id).Error; err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.REPO0007, err.Error())
 	}
 	return nil
 }
-
 
 func (hur *HistoryUserRepository) toModel(obj *entities.HistoryUserEntity) (*models.HistoryUserModel, error) {
 	return models.NewHistoryUserModel(
