@@ -50,6 +50,16 @@ func (at *AuditTrail) setRevision(revision int) error {
 	return nil
 }
 
+func (at *AuditTrail) CountUpRevision(currentNum REVISION) error {
+	if at.Revision != currentNum {
+		return errors.Add(errors.NewCustomError(), errors.EN0004)
+	}
+	if err := at.setRevision(int(currentNum) + 1); err != nil {
+		return errors.Wrap(errors.NewCustomError(), errors.EN0005, err.Error())
+	}
+	return nil
+}
+
 func (at *AuditTrail) setCreatedAt(createdAt time.Time) error {
 	at.CreatedAt = createdAt
 	return nil

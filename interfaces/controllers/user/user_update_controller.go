@@ -14,14 +14,14 @@ import (
 )
 
 type (
-	CreateActiveUserResponse struct {
-		response.CreateActiveUserResponse
+	UpdateActiveUserResponse struct {
+		response.UpdateActiveUserResponse
 	}
 )
 
-func (uc *UserController) Create(ctx *gin.Context) {
-	req := &request.UserCreateRequest{}
-	res := &CreateActiveUserResponse{}
+func (uc *UserController) Update(ctx *gin.Context) {
+	req := &request.UserUpdateRequest{}
+	res := &UpdateActiveUserResponse{}
 
 	if err := ctx.Bind(&req); err != nil {
 		ctx.JSON(http.StatusOK, errors.Response(errors.Wrap(errors.NewCustomError(), errors.ERR0001, err.Error()), res))
@@ -29,30 +29,30 @@ func (uc *UserController) Create(ctx *gin.Context) {
 	}
 	// skip Validation
 
-	reqModel, err := uc.createToModel(ctx, req)
+	reqModel, err := uc.updateToModel(ctx, req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, errors.Response(errors.Wrap(errors.NewCustomError(), errors.ERR0002, err.Error()), res))
 		return
 	}
 
-	createdUser, err := uc.Interactor.Register(ctx, reqModel)
+	updatedUser, err := uc.Interactor.Update(ctx, reqModel)
 	if err != nil {
 		ctx.JSON(http.StatusOK, errors.Response(errors.Wrap(errors.NewCustomError(), errors.ERR0000, err.Error()), res))
 		return
 	}
 
-	res.Result = response.ActiveUserResult{User: uc.convertActiveUserToDTO(createdUser)}
+	res.Result = response.ActiveUserResult{User: uc.convertActiveUserToDTO(updatedUser)}
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (uc *UserController) createToModel(ctx *gin.Context, req *request.UserCreateRequest) (*models.ActiveUserModel, error) {
+func (uc *UserController) updateToModel(ctx *gin.Context, req *request.UserUpdateRequest) (*models.ActiveUserModel, error) {
 	file, _, err := util.FormFile(ctx, "icon")
 	if err != nil {
 		return new(models.ActiveUserModel), err
 	}
 
 	return models.NewActiveUserModel(
-		types.INITIAL_ID,
+		req.Id,
 		req.Name,
 		req.Email,
 		req.Password,
@@ -67,7 +67,7 @@ func (uc *UserController) createToModel(ctx *gin.Context, req *request.UserCreat
 	)
 }
 
-func (c *CreateActiveUserResponse) SetErr(err error) {
+func (c *UpdateActiveUserResponse) SetErr(err error) {
 
 	h := make([]errors.ErrorInfo, 0)
 

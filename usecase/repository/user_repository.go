@@ -9,4 +9,5 @@ type UserRepository interface {
 	FindById(db *gorm.DB, id int) (*models.ActiveUserModel, error)
 	FindAll(db *gorm.DB) ([]*models.ActiveUserModel, error)
 	Create(db *gorm.DB, user *models.ActiveUserModel) (*models.ActiveUserModel, error)
+	Update(tx *gorm.DB, user *models.ActiveUserModel) (*models.ActiveUserModel, error)
 }

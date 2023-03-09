@@ -36,6 +36,17 @@ func (r *ActiveUserRepository) Create(db *gorm.DB, user *models.ActiveUserModel)
 	return r.toModel(ue)
 }
 
+func (r *ActiveUserRepository) Update(tx *gorm.DB, obj *models.ActiveUserModel) (*models.ActiveUserModel, error) {
+	ue, err := r.toEntity(obj)
+	if err != nil {
+		return nil, errors.Wrap(errors.NewCustomError(), errors.REPO0001, err.Error())
+	}
+	if err := tx.Select("email", "nickname", "password", "roll", "revision", "image_key", "icon_url").Updates(&ue).Error; err != nil {
+		return nil, errors.Wrap(errors.NewCustomError(), errors.REPO0004, err.Error())
+	}
+	return r.toModel(ue)
+}
+
 func (r *ActiveUserRepository) toModel(obj *entities.TBLUserEntity) (*models.ActiveUserModel, error) {
 	return models.NewActiveUserModel(
 		obj.UserId,

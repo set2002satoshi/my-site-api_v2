@@ -15,12 +15,12 @@ type (
 	}
 
 	UserUpdateRequest struct {
-		Id       int    `json:"id"`
+		Id       int    `form:"id" json:"id"`
 		Email    string `form:"email" json:"email"`
 		Name     string `form:"name" json:"name"`
 		Password string `form:"pass" json:"pass"`
 		Roll     string `form:"roll" json:"roll"`
-		Revision int    `json:"revision"`
+		Revision int    `form:"revision" json:"revision"`
 	}
 )
 
