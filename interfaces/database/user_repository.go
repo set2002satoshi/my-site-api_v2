@@ -17,6 +17,14 @@ func (r *ActiveUserRepository) FindById(db *gorm.DB, id int) (*models.ActiveUser
 	return r.toModel(acquisitionUser)
 }
 
+func (r *ActiveUserRepository) FindAll(db *gorm.DB) ([]*models.ActiveUserModel, error) {
+	var acquisitionUsers []*entities.TBLUserEntity
+	if err := db.Find(&acquisitionUsers).Error; err != nil {
+		return []*models.ActiveUserModel{}, err
+	}
+	return r.toModels(acquisitionUsers)
+}
+
 func (r *ActiveUserRepository) Create(db *gorm.DB, user *models.ActiveUserModel) (*models.ActiveUserModel, error) {
 	ue, err := r.toEntity(user)
 	if err != nil {
@@ -44,6 +52,17 @@ func (r *ActiveUserRepository) toModel(obj *entities.TBLUserEntity) (*models.Act
 		obj.UpdatedAt,
 	)
 }
+func (r *ActiveUserRepository) toModels(en []*entities.TBLUserEntity) ([]*models.ActiveUserModel, error) {
+	models := make([]*models.ActiveUserModel, len(en))
+	for i, e := range en {
+		model, err := r.toModel(e)
+		if err != nil {
+			return nil, err
+		}
+		models[i] = model
+	}
+	return models, nil
+}
 
 func (r *ActiveUserRepository) toEntity(obj *models.ActiveUserModel) (*entities.TBLUserEntity, error) {
 	return &entities.TBLUserEntity{
@@ -58,5 +77,16 @@ func (r *ActiveUserRepository) toEntity(obj *models.ActiveUserModel) (*entities.
 		CreatedAt: obj.GetAuditTrail().GetCreatedAt(),
 		UpdatedAt: obj.GetAuditTrail().GetUpdatedAt(),
 	}, nil
+}
 
+func (r *ActiveUserRepository) toEntities(obj []*models.ActiveUserModel) ([]*entities.TBLUserEntity, error) {
+	UEs := make([]*entities.TBLUserEntity, len(obj))
+	for i, v := range obj {
+		obj, err := r.toEntity(v)
+		if err != nil {
+			return nil, err
+		}
+		UEs[i] = obj
+	}
+	return UEs, nil
 }
