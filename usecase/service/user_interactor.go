@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/errors"
+	"github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/types"
 	service "github.com/set2002satoshi/my-site-api_v2/pkg/module/service/aws/s3"
 
 	"github.com/set2002satoshi/my-site-api_v2/models"
@@ -14,8 +15,8 @@ import (
 )
 
 type UserInteractor struct {
-	DB          usecase.DBRepository
-	UserRepo    repo.UserRepository
+	DB              usecase.DBRepository
+	UserRepo        repo.UserRepository
 	HistoryUserRepo repo.HistoryUserRepository
 }
 
@@ -109,4 +110,46 @@ func (ui UserInteractor) Update(ctx *gin.Context, obj *models.ActiveUserModel) (
 		return new(models.ActiveUserModel), err
 	}
 	return updatedUser, nil
+}
+
+func (ui *UserInteractor) DeleteById(ctx *gin.Context, id int) error {
+	tx := ui.DB.Begin()
+	currentUser, err := ui.UserRepo.FindById(tx, id)
+	if err != nil {
+		return err
+	}
+	historyUser, err := models.NewHistoryUserModel(
+		types.INITIAL_ID,
+		int(currentUser.GetUserId()),
+		currentUser.GetNickname(),
+		currentUser.GetEmail(),
+		currentUser.GetPassword(),
+		currentUser.GetIcon().GetImgKey(),
+		currentUser.GetIcon().GetImgURL(),
+		string(currentUser.GetRoll()),
+		int(currentUser.GetAuditTrail().GetRevision()),
+		currentUser.GetAuditTrail().GetCreatedAt(),
+		time.Time{},
+	)
+	if err != nil {
+		return errors.Add(errors.NewCustomError(), errors.SE0004)
+	}
+	_, err = ui.HistoryUserRepo.Create(tx, historyUser)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	if err := ui.UserRepo.DeleteById(tx, id); err != nil {
+		tx.Rollback()
+		return err
+	}
+	if err := service.DeleteUserImage(currentUser.GetIcon().GetImgKey()); err != nil {
+		tx.Rollback()
+		return err
+	}
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	return nil
 }

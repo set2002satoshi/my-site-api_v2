@@ -20,7 +20,7 @@ type HistoryUserModel struct {
 
 func NewHistoryUserModel(
 	id int,
-	activeIdUserId int,
+	activeUserId int,
 	nickname string,
 	email string,
 	password string,
@@ -35,11 +35,11 @@ func NewHistoryUserModel(
 
 	var err error
 	err = errors.Combine(err, lum.setId(id))
-	err = errors.Combine(err, lum.setActiveUserId(activeIdUserId))
+	err = errors.Combine(err, lum.setActiveUserId(activeUserId))
 	err = errors.Combine(err, lum.setNickname(nickname))
 	err = errors.Combine(err, lum.setEmail(email))
 	err = errors.Combine(err, lum.setPassword(password))
-	
+
 	err = errors.Combine(err, lum.setRoll(roll))
 	if err != nil {
 		return new(HistoryUserModel), err
@@ -111,7 +111,7 @@ func (lum *HistoryUserModel) setActiveUserId(activeUserId int) error {
 	if err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
 	}
-	lum.Id = i
+	lum.activeUserId = i
 	return nil
 }
 

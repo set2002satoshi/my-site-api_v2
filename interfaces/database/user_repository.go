@@ -47,6 +47,13 @@ func (r *ActiveUserRepository) Update(tx *gorm.DB, obj *models.ActiveUserModel) 
 	return r.toModel(ue)
 }
 
+func (r *ActiveUserRepository) DeleteById(tx *gorm.DB, id int) error {
+	if err := tx.Unscoped().Delete(&entities.TBLUserEntity{}, id).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
 func (r *ActiveUserRepository) toModel(obj *entities.TBLUserEntity) (*models.ActiveUserModel, error) {
 	return models.NewActiveUserModel(
 		obj.UserId,

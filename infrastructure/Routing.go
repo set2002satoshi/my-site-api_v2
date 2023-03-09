@@ -34,6 +34,7 @@ func (r *Routing) setRouting() {
 		userNotLoggedIn.POST("/users/get/all", func(c *gin.Context) { usersController.FindAll(c) })
 		userNotLoggedIn.POST("/users/create", func(c *gin.Context) { usersController.Create(c) })
 		userNotLoggedIn.POST("/users/update", func(c *gin.Context) { usersController.Update(c) })
+		userNotLoggedIn.POST("/users/delete", func(c *gin.Context) { usersController.DeleteById(c) })
 	}
 
 	r.Gin.GET("/", func(c *gin.Context) {
