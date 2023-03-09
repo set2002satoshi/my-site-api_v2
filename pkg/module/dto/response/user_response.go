@@ -8,7 +8,7 @@ import (
 
 type (
 	FindAllActiveUserResponse struct {
-		Results ActiveUserResults `json:"result"`
+		Results ActiveUserResults `json:"results"`
 
 		Errors []errors.ErrorInfo
 	}
