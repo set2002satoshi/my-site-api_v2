@@ -30,7 +30,9 @@ const (
 	REPO0002 = "REPO0002"
 	REPO0003 = "REPO0003"
 	REPO0004 = "REPO0004"
-
+	REPO0005 = "REPO0005"
+	REPO0006 = "REPO0006"
+	REPO0007 = "REPO0007"
 
 	UNDEFINED = "UNDEFINED"
 )
@@ -62,7 +64,9 @@ var ErrMap = map[string]string{
 	REPO0002: "failed to create user",
 	REPO0003: "failed find user",
 	REPO0004: "failed updated user",
-	
+	REPO0005: "failed find history user",
+	REPO0006: "failed to created history user",
+	REPO0007: "failed to deleted history user",
 
 	UNDEFINED: "undefined",
 }

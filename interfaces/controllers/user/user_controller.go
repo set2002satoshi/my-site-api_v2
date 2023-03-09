@@ -18,8 +18,9 @@ type UserController struct {
 func NewUserController(db config.DB) *UserController {
 	return &UserController{
 		Interactor: service.UserInteractor{
-			DB:       &config.DBRepository{DB: db},
-			UserRepo: &database.ActiveUserRepository{},
+			DB:              &config.DBRepository{DB: db},
+			UserRepo:        &database.ActiveUserRepository{},
+			HistoryUserRepo: &database.HistoryUserRepository{},
 		},
 	}
 }
