@@ -16,6 +16,11 @@ type UserInteractor struct {
 	UserRepo repo.UserRepository
 }
 
+func (ui UserInteractor) FindById(ctx *gin.Context, id int) (*models.ActiveUserModel, error) {
+	db := ui.DB.Connect()
+	return ui.UserRepo.FindById(db, id)
+}
+
 func (ui UserInteractor) Register(ctx *gin.Context, obj *models.ActiveUserModel) (*models.ActiveUserModel, error) {
 	db := ui.DB.Connect()
 	imgKey, imgURL, err := service.UploadUserImage("user", obj.GetNickname(), obj.GetEmail(), obj.GetIcon().GetImgFile())

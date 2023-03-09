@@ -28,6 +28,7 @@ const (
 
 	REPO0001 = "REPO0001"
 	REPO0002 = "REPO0002"
+	REPO0003 = "REPO0003"
 
 
 	UNDEFINED = "UNDEFINED"
@@ -57,7 +58,8 @@ var ErrMap = map[string]string{
 	SE0004: "couldn't to model",
 
 	REPO0001: "couldn't to entity",
-	REPO0002: "Failed to create user",
+	REPO0002: "failed to create user",
+	REPO0003: "failed find user",
 	
 
 	UNDEFINED: "undefined",

@@ -2,10 +2,10 @@ package request
 
 type (
 	UserFindByIdRequest struct {
-		ID int `json:"id"`
+		Id int `json:"id"`
 	}
 	UserDeleteRequest struct {
-		ID int `json:"id"`
+		Id int `json:"id"`
 	}
 	UserCreateRequest struct {
 		Email    string `form:"email" json:"email"`
@@ -15,11 +15,11 @@ type (
 	}
 
 	UserUpdateRequest struct {
-		ID       int    `json:"id"`
-		Email    string `json:"email"`
-		Name     string `json:"name"`
-		Password string `json:"pass"`
-		Roll     string `json:"roll"`
+		Id       int    `json:"id"`
+		Email    string `form:"email" json:"email"`
+		Name     string `form:"name" json:"name"`
+		Password string `form:"pass" json:"pass"`
+		Roll     string `form:"roll" json:"roll"`
 		Revision int    `json:"revision"`
 	}
 )
