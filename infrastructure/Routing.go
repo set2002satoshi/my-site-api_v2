@@ -30,9 +30,10 @@ func (r *Routing) setRouting() {
 
 	userNotLoggedIn := r.Gin.Group("/api")
 	{
-		userNotLoggedIn.POST("/users/create", func(c *gin.Context) { usersController.Create(c) })
 		userNotLoggedIn.POST("/users/get", func(c *gin.Context) { usersController.Find(c) })
 		userNotLoggedIn.POST("/users/get/all", func(c *gin.Context) { usersController.FindAll(c) })
+		userNotLoggedIn.POST("/users/create", func(c *gin.Context) { usersController.Create(c) })
+		userNotLoggedIn.POST("/users/update", func(c *gin.Context) { usersController.Update(c) })
 	}
 
 	r.Gin.GET("/", func(c *gin.Context) {
