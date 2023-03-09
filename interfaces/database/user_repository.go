@@ -9,6 +9,14 @@ import (
 
 type ActiveUserRepository struct{}
 
+func (r *ActiveUserRepository) FindById(db *gorm.DB, id int) (*models.ActiveUserModel, error) {
+	var acquisitionUser *entities.TBLUserEntity
+	if err := db.Where("user_id = ?", id).First(&acquisitionUser).Error; err != nil {
+		return &models.ActiveUserModel{}, errors.Wrap(errors.NewCustomError(), errors.REPO0003, gorm.ErrRecordNotFound.Error())
+	}
+	return r.toModel(acquisitionUser)
+}
+
 func (r *ActiveUserRepository) Create(db *gorm.DB, user *models.ActiveUserModel) (*models.ActiveUserModel, error) {
 	ue, err := r.toEntity(user)
 	if err != nil {
@@ -19,11 +27,6 @@ func (r *ActiveUserRepository) Create(db *gorm.DB, user *models.ActiveUserModel)
 	}
 	return r.toModel(ue)
 }
-
-
-
-
-
 
 func (r *ActiveUserRepository) toModel(obj *entities.TBLUserEntity) (*models.ActiveUserModel, error) {
 	return models.NewActiveUserModel(
@@ -49,7 +52,7 @@ func (r *ActiveUserRepository) toEntity(obj *models.ActiveUserModel) (*entities.
 		Email:     obj.GetEmail(),
 		Password:  []byte(obj.GetPassword()),
 		IconURL:   string(obj.GetIcon().GetImgURL()),
-		ImageKey: string(obj.GetIcon().GetImgKey()),
+		ImageKey:  string(obj.GetIcon().GetImgKey()),
 		Roll:      string(obj.GetRoll()),
 		Revision:  int(obj.GetAuditTrail().GetRevision()),
 		CreatedAt: obj.GetAuditTrail().GetCreatedAt(),
