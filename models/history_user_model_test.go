@@ -7,11 +7,17 @@ import (
 	"github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/types"
 )
 
-func TestLogUserModel(t *testing.T) {
+func TestHistoryUserModel(t *testing.T) {
 	a := &types.AuditTrail{
 		Revision:  1,
 		CreatedAt: time.Date(2022, 4, 1, 9, 0, 0, 0, time.UTC),
 		UpdatedAt: time.Date(2022, 4, 1, 9, 0, 0, 0, time.UTC),
+	}
+	i := &types.ImageTypeFileOrURL{
+		ImgFile:      nil,
+		ImgURL:       "http://iamge.iamge",
+		ImgKey:       "iam_key",
+		DataTypeFlag: true,
 	}
 	type args struct {
 		historyUserId int
@@ -19,7 +25,7 @@ func TestLogUserModel(t *testing.T) {
 		nickname      string
 		email         string
 		password      string
-		icon          string
+		icon          *types.ImageTypeFileOrURL
 		roll          string
 		auditTrail    *types.AuditTrail
 	}
@@ -36,7 +42,7 @@ func TestLogUserModel(t *testing.T) {
 				nickname:      "ニックネーム",
 				email:         "abc@a.com",
 				password:      "password",
-				icon:          "http://iamge.iamge",
+				icon:          i,
 				roll:          "member",
 				auditTrail:    a,
 			},
@@ -50,7 +56,7 @@ func TestLogUserModel(t *testing.T) {
 				nickname:      "",
 				email:         "",
 				password:      "",
-				icon:          "http://iamge.iamge",
+				icon:          i,
 				roll:          "member",
 				auditTrail:    a,
 			},
@@ -59,13 +65,14 @@ func TestLogUserModel(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if _, err := NewLogUserModel(
+			if _, err := NewHistoryUserModel(
 				tt.args.historyUserId,
 				tt.args.activeUserId,
 				tt.args.nickname,
 				tt.args.email,
 				tt.args.password,
-				tt.args.icon,
+				tt.args.icon.ImgURL,
+				tt.args.icon.ImgKey,
 				tt.args.roll,
 				int(tt.args.auditTrail.Revision),
 				tt.args.auditTrail.CreatedAt,

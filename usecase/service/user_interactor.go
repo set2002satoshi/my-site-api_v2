@@ -14,8 +14,9 @@ import (
 )
 
 type UserInteractor struct {
-	DB       usecase.DBRepository
-	UserRepo repo.UserRepository
+	DB          usecase.DBRepository
+	UserRepo    repo.UserRepository
+	HistoryUserRepo repo.HistoryUserRepository
 }
 
 func (ui UserInteractor) FindById(ctx *gin.Context, id int) (*models.ActiveUserModel, error) {

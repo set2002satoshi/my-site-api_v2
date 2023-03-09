@@ -11,3 +11,9 @@ type UserRepository interface {
 	Create(db *gorm.DB, user *models.ActiveUserModel) (*models.ActiveUserModel, error)
 	Update(tx *gorm.DB, user *models.ActiveUserModel) (*models.ActiveUserModel, error)
 }
+
+type HistoryUserRepository interface {
+	FindById(db *gorm.DB, id int) (*models.HistoryUserModel, error)
+	Create(tx *gorm.DB, user *models.HistoryUserModel) (*models.HistoryUserModel, error)
+	DeleteById(tx *gorm.DB, id int) error
+}
