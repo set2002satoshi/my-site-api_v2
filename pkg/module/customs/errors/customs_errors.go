@@ -25,6 +25,7 @@ const (
 	SE0002 = "SE0002"
 	SE0003 = "SE0003"
 	SE0004 = "SE0004"
+	SE0005 = "SE0005"
 
 	REPO0001 = "REPO0001"
 	REPO0002 = "REPO0002"
@@ -59,6 +60,7 @@ var ErrMap = map[string]string{
 	SE0002: "invalid password",
 	SE0003: "couldn't issue token",
 	SE0004: "couldn't to model",
+	SE0005: "couldn't to history",
 
 	REPO0001: "couldn't to entity",
 	REPO0002: "failed to create user",

@@ -75,11 +75,22 @@ func (ui UserInteractor) Update(ctx *gin.Context, obj *models.ActiveUserModel) (
 		tx.Rollback()
 		return new(models.ActiveUserModel), err
 	}
+
 	imgKey, imgURL, err := service.UploadUserImage("user", obj.GetNickname(), obj.GetEmail(), obj.GetIcon().GetImgFile())
 	if err != nil {
 		tx.Rollback()
 		return new(models.ActiveUserModel), err
 	}
+	historyUser, err := ui.ActiveToHistory(currentUser)
+	if err != nil {
+		return new(models.ActiveUserModel), errors.Add(errors.NewCustomError(), errors.SE0005)
+	}
+	
+	_, err = ui.HistoryUserRepo.Create(tx, historyUser)
+	if err != nil {
+		return new(models.ActiveUserModel), err
+	}
+
 	um, err := models.NewActiveUserModel(
 		int(currentUser.GetUserId()),
 		obj.GetNickname(),
@@ -152,4 +163,20 @@ func (ui *UserInteractor) DeleteById(ctx *gin.Context, id int) error {
 		return err
 	}
 	return nil
+}
+
+func (ui *UserInteractor) ActiveToHistory(obj *models.ActiveUserModel) (*models.HistoryUserModel, error) {
+	return models.NewHistoryUserModel(
+		types.INITIAL_ID,
+		int(obj.GetUserId()),
+		obj.GetNickname(),
+		obj.GetEmail(),
+		obj.GetPassword(),
+		obj.GetIcon().GetImgURL(),
+		obj.GetIcon().GetImgKey(),
+		string(obj.GetRoll()),
+		int(obj.GetAuditTrail().GetRevision()),
+		obj.GetAuditTrail().GetCreatedAt(),
+		obj.GetAuditTrail().GetUpdatedAt(),
+	)
 }
