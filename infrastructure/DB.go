@@ -58,8 +58,13 @@ func (db *DB) Connect() *gorm.DB {
 func (db *DB) DBInit() {
 	DBEngine := db.Connect()
 	var err error
+
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.TBLUserEntity{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.TBLBlogEntity{}))
+
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.HistoryUserEntity{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.HistoryBlogEntity{}))
+	
 	if err != nil {
 		panic(errors.DB0002)
 	}
