@@ -14,6 +14,11 @@ type BlogInteractor struct {
 	HistoryBlogRepo repo.HistoryBlogRepository
 }
 
+func (bi *BlogInteractor) FindById(ctx *gin.Context, id int) (*models.ActiveBlogModel, error) {
+	db := bi.DB.Connect()
+	return bi.BlogRepo.FindById(db, id)
+}
+
 func (bi *BlogInteractor) FindAll(ctx *gin.Context) ([]*models.ActiveBlogModel, error) {
 	db := bi.DB.Connect()
 	return bi.BlogRepo.FindAll(db)

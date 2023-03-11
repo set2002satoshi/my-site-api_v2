@@ -9,6 +9,12 @@ type (
 		Errors []errors.ErrorInfo
 	}
 
+	FindByIdActiveBlogResponse struct {
+		Result ActiveBlogResult `json:"result"`
+
+		Errors []errors.ErrorInfo
+	}
+
 	CreateActiveBlogResponse struct {
 		Result ActiveBlogResult `json:"results"`
 
