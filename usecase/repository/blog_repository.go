@@ -6,6 +6,7 @@ import (
 )
 
 type BlogRepository interface {
+	FindAll(db *gorm.DB) ([]*models.ActiveBlogModel, error)
 	Create(db *gorm.DB, obj *models.ActiveBlogModel) (*models.ActiveBlogModel, error)
 }
 

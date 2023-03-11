@@ -14,6 +14,11 @@ type BlogInteractor struct {
 	HistoryBlogRepo repo.HistoryBlogRepository
 }
 
+func (bi *BlogInteractor) FindAll(ctx *gin.Context) ([]*models.ActiveBlogModel, error) {
+	db := bi.DB.Connect()
+	return bi.BlogRepo.FindAll(db)
+}
+
 func (bi BlogInteractor) Register(ctx *gin.Context, obj *models.ActiveBlogModel) (*models.ActiveBlogModel, error) {
 	tx := bi.DB.Begin()
 	createdBlog, err := bi.BlogRepo.Create(tx, obj)

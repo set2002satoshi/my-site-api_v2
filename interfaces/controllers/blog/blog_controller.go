@@ -37,3 +37,23 @@ func (bu *BlogController) convertActiveBlogToDTO(obj *models.ActiveBlogModel) re
 		},
 	}
 }
+
+func (bu *BlogController) convertActiveBlogToDTOs(obj []*models.ActiveBlogModel) []response.ActiveBlogEntity {
+	BEs := make([]response.ActiveBlogEntity, len(obj))
+	for i, v := range obj {
+		be := response.ActiveBlogEntity{
+			BlogId:   int(v.GetBlogId()),
+			UserId:   int(v.GetUserId()),
+			Nickname: v.GetNickname(),
+			Title:    v.GetTitle(),
+			Context:  v.GetContext(),
+			Option: response.Options{
+				Revision:  int(v.GetAuditTrail().GetRevision()),
+				CreatedAt: v.GetAuditTrail().GetCreatedAt(),
+				UpdatedAt: v.GetAuditTrail().GetUpdatedAt(),
+			},
+		}
+		BEs[i] = be
+	}
+	return BEs
+}

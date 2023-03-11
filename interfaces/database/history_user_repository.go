@@ -41,7 +41,7 @@ func (hur *HistoryUserRepository) toModel(obj *entities.HistoryUserEntity) (*mod
 	return models.NewHistoryUserModel(
 		obj.Id,
 		obj.ActiveUserId,
-		obj.Nick,
+		obj.Nickname,
 		obj.Email,
 		string(obj.Password),
 		obj.ImgURL,
@@ -57,7 +57,7 @@ func (hur *HistoryUserRepository) toEntity(obj *models.HistoryUserModel) (*entit
 	return &entities.HistoryUserEntity{
 		Id:           int(obj.GetId()),
 		ActiveUserId: int(obj.GetActiveUserId()),
-		Nick:         obj.GetNickname(),
+		Nickname:         obj.GetNickname(),
 		Email:        obj.GetEmail(),
 		Password:     []byte(obj.GetPassword()),
 		ImgURL:       obj.GetIcon().GetImgURL(),

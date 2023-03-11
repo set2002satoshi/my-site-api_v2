@@ -4,7 +4,7 @@ import "github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/errors"
 
 type (
 	FindAllActiveBlogResponse struct {
-		Result ActiveBlogResults `json:"result"`
+		Results ActiveBlogResults `json:"result"`
 
 		Errors []errors.ErrorInfo
 	}
