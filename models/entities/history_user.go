@@ -5,7 +5,7 @@ import "time"
 type HistoryUserEntity struct {
 	Id           int `gorm:"primaryKey"`
 	ActiveUserId int
-	Nick         string
+	Nickname     string
 	Email        string
 	Password     []byte
 	ImgURL       string

@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	uc "github.com/set2002satoshi/my-site-api_v2/interfaces/controllers/user"
 	bc "github.com/set2002satoshi/my-site-api_v2/interfaces/controllers/blog"
+	uc "github.com/set2002satoshi/my-site-api_v2/interfaces/controllers/user"
 )
 
 type Routing struct {
@@ -41,6 +41,7 @@ func (r *Routing) setRouting() {
 
 	blogNotLoggedIn := r.Gin.Group("/api")
 	{
+		blogNotLoggedIn.POST("/blogs/get/all", func(c *gin.Context) { blogsController.FindAll(c) })
 		blogNotLoggedIn.POST("/blogs/create", func(c *gin.Context) { blogsController.Create(c) })
 	}
 
