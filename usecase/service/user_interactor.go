@@ -85,7 +85,7 @@ func (ui UserInteractor) Update(ctx *gin.Context, obj *models.ActiveUserModel) (
 	if err != nil {
 		return new(models.ActiveUserModel), errors.Add(errors.NewCustomError(), errors.SE0005)
 	}
-	
+
 	_, err = ui.HistoryUserRepo.Create(tx, historyUser)
 	if err != nil {
 		return new(models.ActiveUserModel), err

@@ -9,8 +9,9 @@ type BlogRepository interface {
 	FindById(db *gorm.DB, id int) (*models.ActiveBlogModel, error)
 	FindAll(db *gorm.DB) ([]*models.ActiveBlogModel, error)
 	Create(db *gorm.DB, obj *models.ActiveBlogModel) (*models.ActiveBlogModel, error)
+	DeleteById(db *gorm.DB, id int) error
 }
 
 type HistoryBlogRepository interface {
-
+	Create(db *gorm.DB, obj *models.HistoryBlogModel) (*models.HistoryBlogModel, error)
 }
