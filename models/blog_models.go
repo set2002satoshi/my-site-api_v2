@@ -10,6 +10,7 @@ import (
 type ActiveBlogModel struct {
 	blogId     types.IDENTIFICATION
 	userId     types.IDENTIFICATION
+	nickName   string
 	title      string
 	context    string
 	auditTrail *types.AuditTrail
@@ -18,6 +19,7 @@ type ActiveBlogModel struct {
 func NewActiveBlogModel(
 	blogId int,
 	userId int,
+	nickName   string,
 	title string,
 	context string,
 	revision int,
@@ -29,6 +31,7 @@ func NewActiveBlogModel(
 	var err error
 	err = errors.Combine(err, abm.setBlogId(blogId))
 	err = errors.Combine(err, abm.setUserId(userId))
+	err = errors.Combine(err, abm.setNickName(nickName))
 	err = errors.Combine(err, abm.setTitle(title))
 	err = errors.Combine(err, abm.setContext(context))
 	if err != nil {
@@ -59,6 +62,10 @@ func (abm *ActiveBlogModel) GetUserId() types.IDENTIFICATION {
 	return abm.userId
 }
 
+func (abm *ActiveBlogModel) GetNickname() string {
+	return abm.nickName
+}
+
 func (abm *ActiveBlogModel) GetTitle() string {
 	return abm.title
 }
@@ -86,6 +93,11 @@ func (abm *ActiveBlogModel) setUserId(userId int) error {
 		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
 	}
 	abm.userId = i
+	return nil
+}
+
+func (abm *ActiveBlogModel) setNickName(name string) error {
+	abm.nickName = name
 	return nil
 }
 

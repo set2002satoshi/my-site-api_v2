@@ -34,6 +34,7 @@ const (
 	REPO0005 = "REPO0005"
 	REPO0006 = "REPO0006"
 	REPO0007 = "REPO0007"
+	REPO0008 = "REPO0008"
 
 	UNDEFINED = "UNDEFINED"
 )
@@ -42,7 +43,7 @@ var ErrMap = map[string]string{
 	ERR0000: "error code undetermined",
 	ERR0001: "failure BindJSON",
 	ERR0002: "failure to Model",
-	// ERR0003: "couldn't get userID",
+	ERR0003: "couldn't get userID",
 
 	TYPE0001: "id is less than or equal to zero",
 
@@ -69,6 +70,7 @@ var ErrMap = map[string]string{
 	REPO0005: "failed find history user",
 	REPO0006: "failed to created history user",
 	REPO0007: "failed to deleted history user",
+	REPO0008: "failed to create blog",
 
 	UNDEFINED: "undefined",
 }

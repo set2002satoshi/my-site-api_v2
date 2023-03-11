@@ -97,14 +97,14 @@ func (r *ActiveUserRepository) toEntity(obj *models.ActiveUserModel) (*entities.
 	}, nil
 }
 
-func (r *ActiveUserRepository) toEntities(obj []*models.ActiveUserModel) ([]*entities.TBLUserEntity, error) {
-	UEs := make([]*entities.TBLUserEntity, len(obj))
-	for i, v := range obj {
-		obj, err := r.toEntity(v)
-		if err != nil {
-			return nil, err
-		}
-		UEs[i] = obj
-	}
-	return UEs, nil
-}
+// func (r *ActiveUserRepository) toEntities(obj []*models.ActiveUserModel) ([]*entities.TBLUserEntity, error) {
+// 	UEs := make([]*entities.TBLUserEntity, len(obj))
+// 	for i, v := range obj {
+// 		obj, err := r.toEntity(v)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 		UEs[i] = obj
+// 	}
+// 	return UEs, nil
+// }

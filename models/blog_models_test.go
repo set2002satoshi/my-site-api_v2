@@ -16,6 +16,7 @@ func TestActiveBlogModel(t *testing.T) {
 	type args struct {
 		blogId     int
 		userId     int
+		nickname string
 		title      string
 		context    string
 		auditTrail *types.AuditTrail
@@ -30,6 +31,7 @@ func TestActiveBlogModel(t *testing.T) {
 			args: args{
 				blogId:     1,
 				userId:     1,
+				nickname: "name",
 				title:      "test title",
 				context:    "test context",
 				auditTrail: a,
@@ -41,6 +43,7 @@ func TestActiveBlogModel(t *testing.T) {
 			args: args{
 				blogId:     -1,
 				userId:     -1,
+				nickname: "name",
 				title:      "test title",
 				context:    "test context",
 				auditTrail: a,
@@ -52,6 +55,7 @@ func TestActiveBlogModel(t *testing.T) {
 			args: args{
 				blogId:     -1,
 				userId:     0,
+				nickname: "name",
 				title:      "test title",
 				context:    "test context",
 				auditTrail: a,
@@ -64,6 +68,7 @@ func TestActiveBlogModel(t *testing.T) {
 			if _, err := NewActiveBlogModel(
 				tt.args.blogId,
 				tt.args.userId,
+				tt.args.nickname,
 				tt.args.title,
 				tt.args.context,
 				int(tt.args.auditTrail.Revision),
