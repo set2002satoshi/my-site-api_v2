@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	uc "github.com/set2002satoshi/my-site-api_v2/interfaces/controllers/user"
+	bc "github.com/set2002satoshi/my-site-api_v2/interfaces/controllers/blog"
 )
 
 type Routing struct {
@@ -27,6 +28,7 @@ func NewRouting(db *DB) *Routing {
 func (r *Routing) setRouting() {
 
 	usersController := uc.NewUserController(r.DB)
+	blogsController := bc.NewBlogController(r.DB)
 
 	userNotLoggedIn := r.Gin.Group("/api")
 	{
@@ -35,6 +37,11 @@ func (r *Routing) setRouting() {
 		userNotLoggedIn.POST("/users/create", func(c *gin.Context) { usersController.Create(c) })
 		userNotLoggedIn.POST("/users/update", func(c *gin.Context) { usersController.Update(c) })
 		userNotLoggedIn.POST("/users/delete", func(c *gin.Context) { usersController.DeleteById(c) })
+	}
+
+	blogNotLoggedIn := r.Gin.Group("/api")
+	{
+		blogNotLoggedIn.POST("/blogs/create", func(c *gin.Context) { blogsController.Create(c) })
 	}
 
 	r.Gin.GET("/", func(c *gin.Context) {

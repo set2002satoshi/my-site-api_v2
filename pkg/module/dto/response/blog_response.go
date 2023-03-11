@@ -1,6 +1,6 @@
 package response
 
-import "github.com/set2002satoshi/my-site-api/pkg/module/customs/errors"
+import "github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/errors"
 
 type (
 	FindAllActiveBlogResponse struct {
@@ -44,14 +44,13 @@ type (
 
 type (
 	ActiveBlogEntity struct {
-		BlogId      int                     `json:"blog_id"`
-		UserId      int                     `json:"user_id"`
-		UserName    string                  `json:"user_name"`
-		Title       string                  `json:"title"`
-		Content     string                  `json:"content"`
-		CategoryIds []BlogAndCategoryEntity `json:"category_ids"`
-		Categories  []ActiveCategoryEntity  `json:"categories"`
-		Option      Options                 `json:"option"`
+		BlogId     int                   `json:"blog_id"`
+		UserId     int                   `json:"user_id"`
+		Nickname   string                `json:"nickname"`
+		Title      string                `json:"title"`
+		Context    string                `json:"content"`
+		// Categories []ActiveCategoryModel `json:"categories"`
+		Option     Options               `json:"option"`
 	}
 )
 
