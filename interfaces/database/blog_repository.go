@@ -1,8 +1,6 @@
 package database
 
 import (
-	"fmt"
-
 	"github.com/set2002satoshi/my-site-api_v2/models"
 	"github.com/set2002satoshi/my-site-api_v2/models/entities"
 	"github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/errors"
@@ -21,13 +19,20 @@ type BlogModel struct {
 	AuditTrail *types.AuditTrail
 }
 
+func (repo *ActiveBlogRepository) FindById(db *gorm.DB, id int) (*models.ActiveBlogModel, error) {
+	var blog *entities.BlogWithNicknameEntity
+	if err := db.Model(&entities.TBLBlogEntity{}).Select("tbl_blog_entities.*, tbl_user_entities.nickname").Joins("left join tbl_user_entities on tbl_blog_entities.user_id = tbl_user_entities.user_id").Scan(&blog).Error; err != nil {
+		return new(models.ActiveBlogModel), nil
+	}
+	return repo.joinTBLToModel(blog)
+}
+
 func (repo *ActiveBlogRepository) FindAll(db *gorm.DB) ([]*models.ActiveBlogModel, error) {
 	var blogs []entities.BlogWithNicknameEntity
 	if err := db.Model(&entities.TBLBlogEntity{}).Select("tbl_blog_entities.*, tbl_user_entities.nickname").Joins("left join tbl_user_entities on tbl_blog_entities.user_id = tbl_user_entities.user_id").Scan(&blogs).Error; err != nil {
-		fmt.Println(blogs)
 		return make([]*models.ActiveBlogModel, 0), nil
 	}
-	return repo.joinTBLToModel(blogs)
+	return repo.joinTBLToModels(blogs)
 }
 
 func (repo *ActiveBlogRepository) Create(db *gorm.DB, obj *models.ActiveBlogModel) (*models.ActiveBlogModel, error) {
@@ -54,19 +59,23 @@ func (repo *ActiveBlogRepository) toModel(obj *entities.TBLBlogEntity) (*models.
 	)
 }
 
-func (repo *ActiveBlogRepository) joinTBLToModel(obj []entities.BlogWithNicknameEntity) ([]*models.ActiveBlogModel, error) {
+func (repo *ActiveBlogRepository) joinTBLToModel(obj *entities.BlogWithNicknameEntity) (*models.ActiveBlogModel, error) {
+	return models.NewActiveBlogModel(
+		obj.BlogId,
+		obj.UserId,
+		obj.Nickname,
+		obj.Title,
+		obj.Context,
+		obj.Revision,
+		obj.CreatedAt,
+		obj.UpdatedAt,
+	)
+}
+
+func (repo *ActiveBlogRepository) joinTBLToModels(obj []entities.BlogWithNicknameEntity) ([]*models.ActiveBlogModel, error) {
 	blogModels := make([]*models.ActiveBlogModel, len(obj))
 	for i, obj := range obj {
-		model, err := models.NewActiveBlogModel(
-			obj.BlogId,
-			obj.UserId,
-			obj.Nickname,
-			obj.Title,
-			obj.Context,
-			obj.Revision,
-			obj.CreatedAt,
-			obj.UpdatedAt,
-		)
+		model, err := repo.joinTBLToModel(&obj)
 		if err != nil {
 			return nil, err
 		}
