@@ -39,7 +39,6 @@ func NewHistoryUserModel(
 	err = errors.Combine(err, lum.setNickname(nickname))
 	err = errors.Combine(err, lum.setEmail(email))
 	err = errors.Combine(err, lum.setPassword(password))
-
 	err = errors.Combine(err, lum.setRoll(roll))
 	if err != nil {
 		return new(HistoryUserModel), err

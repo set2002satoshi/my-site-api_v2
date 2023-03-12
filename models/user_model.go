@@ -44,7 +44,6 @@ func NewActiveUserModel(
 	if err != nil {
 		return new(ActiveUserModel), err
 	}
-
 	com, err := types.NewAuditTrail(revision, createdAt, updatedAt)
 	if err != nil {
 		return new(ActiveUserModel), err
