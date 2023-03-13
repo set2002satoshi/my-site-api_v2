@@ -7,6 +7,7 @@ import (
 
 type CategoryRepository interface {
 	FindAll(db *gorm.DB) ([]*models.ActiveCategoryModel, error)
+	FindById(db *gorm.DB, id int) (*models.ActiveCategoryModel, error)
 	Create(tx *gorm.DB, obj *models.ActiveCategoryModel) (*models.ActiveCategoryModel, error)
 }
 
