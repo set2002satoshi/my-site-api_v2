@@ -38,6 +38,8 @@ const (
 	REPO0008 = "REPO0008"
 	REPO0009 = "REPO0009"
 	REPO0010 = "REPO00010"
+	REPO0011 = "REPO0011"
+	REPO0012 = "REPO0012"
 
 	UNDEFINED = "UNDEFINED"
 )
@@ -77,6 +79,8 @@ var ErrMap = map[string]string{
 	REPO0008: "failed to create blog",
 	REPO0009: "failed to create history blog",
 	REPO0010: "failed to create category",
+	REPO0011: "failed to find category",
+	REPO0012: "failed to find blog",
 
 	UNDEFINED: "undefined",
 }

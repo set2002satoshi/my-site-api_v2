@@ -41,7 +41,7 @@ func (repo *ActiveBlogRepository) Create(db *gorm.DB, obj *models.ActiveBlogMode
 		return new(models.ActiveBlogModel), errors.Wrap(errors.NewCustomError(), errors.REPO0001, err.Error())
 	}
 	if err := db.Create(be).Error; err != nil {
-		return new(models.ActiveBlogModel), errors.Wrap(errors.NewCustomError(), errors.REPO0002, err.Error())
+		return new(models.ActiveBlogModel), errors.Wrap(errors.NewCustomError(), errors.REPO0012, err.Error())
 	}
 	return repo.toModel(be)
 }

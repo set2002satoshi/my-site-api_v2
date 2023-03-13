@@ -43,18 +43,18 @@ func (uc *UserController) convertActiveUserToDTO(obj *models.ActiveUserModel) re
 func (uc *UserController) convertActiveUserToDTOs(obj []*models.ActiveUserModel) []response.ActiveUserEntity {
 	UEs := make([]response.ActiveUserEntity, len(obj))
 	for i, v := range obj {
-		ue := response.ActiveUserEntity{
-			UserId:    int(v.GetUserId()),
-			Nickname:  v.GetNickname(),
-			Email:     v.GetEmail(),
-			Password:  v.GetPassword(),
-			IconURL:   v.GetIcon().GetImgURL(),
-			Roll:      string(v.GetRoll()),
-			Revision:  int(v.GetAuditTrail().GetRevision()),
-			CreatedAt: v.GetAuditTrail().GetCreatedAt(),
-			UpdatedAt: v.GetAuditTrail().GetUpdatedAt(),
-		}
-		UEs[i] = ue
+		// ue := response.ActiveUserEntity{
+		// 	UserId:    int(v.GetUserId()),
+		// 	Nickname:  v.GetNickname(),
+		// 	Email:     v.GetEmail(),
+		// 	Password:  v.GetPassword(),
+		// 	IconURL:   v.GetIcon().GetImgURL(),
+		// 	Roll:      string(v.GetRoll()),
+		// 	Revision:  int(v.GetAuditTrail().GetRevision()),
+		// 	CreatedAt: v.GetAuditTrail().GetCreatedAt(),
+		// 	UpdatedAt: v.GetAuditTrail().GetUpdatedAt(),
+		// }
+		UEs[i] = uc.convertActiveUserToDTO(v)
 	}
 	return UEs
 }

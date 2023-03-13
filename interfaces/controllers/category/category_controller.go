@@ -28,3 +28,11 @@ func (cc *CategoryController) convertActiveCategoryToDTO(obj *models.ActiveCateg
 		CategoryName: obj.GetCategoryName(),
 	}
 }
+
+func (cc *CategoryController) convertActiveCategoryToDTOs(obj []*models.ActiveCategoryModel) []response.ActiveCategoryEntity {
+	CEs := make([]response.ActiveCategoryEntity, len(obj))
+	for i, v := range obj {
+		CEs[i] = cc.convertActiveCategoryToDTO(v)
+	}
+	return CEs
+}
