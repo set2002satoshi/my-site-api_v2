@@ -13,6 +13,11 @@ type CategoryInteractor struct {
 	// HistoryCategoryRepo repo.HistoryCategoryRepository
 }
 
+func (ci *CategoryInteractor) FindAll(ctx *gin.Context) ([]*models.ActiveCategoryModel, error) {
+	db := ci.DB.Connect()
+	return ci.CategoryRepo.FindAll(db)
+}
+
 func (ci *CategoryInteractor) Register(ctx *gin.Context, obj *models.ActiveCategoryModel) (*models.ActiveCategoryModel, error) {
 	db := ci.DB.Connect()
 	return ci.CategoryRepo.Create(db, obj)

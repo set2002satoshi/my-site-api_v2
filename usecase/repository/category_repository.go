@@ -6,6 +6,7 @@ import (
 )
 
 type CategoryRepository interface {
+	FindAll(db *gorm.DB) ([]*models.ActiveCategoryModel, error)
 	Create(tx *gorm.DB, obj *models.ActiveCategoryModel) (*models.ActiveCategoryModel, error)
 }
 
