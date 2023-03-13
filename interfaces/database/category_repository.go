@@ -10,6 +10,14 @@ import (
 
 type CategoryRepository struct{}
 
+func (repo *CategoryRepository) FindById(db *gorm.DB, id int) (*models.ActiveCategoryModel, error) {
+	var acquisitionCategory *entities.TBLCategoryEntity
+	if err := db.First(&acquisitionCategory, id).Error; err != nil {
+		return &models.ActiveCategoryModel{}, err
+	}
+	return repo.toModel(acquisitionCategory)
+}
+
 func (repo *CategoryRepository) FindAll(db *gorm.DB) ([]*models.ActiveCategoryModel, error) {
 	var category []*entities.TBLCategoryEntity
 	if err := db.Find(&category).Error; err != nil {

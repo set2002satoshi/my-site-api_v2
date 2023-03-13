@@ -18,6 +18,11 @@ func (ci *CategoryInteractor) FindAll(ctx *gin.Context) ([]*models.ActiveCategor
 	return ci.CategoryRepo.FindAll(db)
 }
 
+func (ci *CategoryInteractor) FindById(ctx *gin.Context, id int) (*models.ActiveCategoryModel, error) {
+	db := ci.DB.Connect()
+	return ci.CategoryRepo.FindById(db, id)
+}
+
 func (ci *CategoryInteractor) Register(ctx *gin.Context, obj *models.ActiveCategoryModel) (*models.ActiveCategoryModel, error) {
 	db := ci.DB.Connect()
 	return ci.CategoryRepo.Create(db, obj)
