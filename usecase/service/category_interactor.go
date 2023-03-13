@@ -27,3 +27,8 @@ func (ci *CategoryInteractor) Register(ctx *gin.Context, obj *models.ActiveCateg
 	db := ci.DB.Connect()
 	return ci.CategoryRepo.Create(db, obj)
 }
+
+func (ci *CategoryInteractor) DeleteById(ctx *gin.Context, id int) error {
+	db := ci.DB.Connect()
+	return ci.CategoryRepo.DeleteById(db, id)
+}

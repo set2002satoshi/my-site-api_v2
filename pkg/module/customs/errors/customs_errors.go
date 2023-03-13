@@ -40,6 +40,7 @@ const (
 	REPO0010 = "REPO00010"
 	REPO0011 = "REPO0011"
 	REPO0012 = "REPO0012"
+	REPO0013 = "REPO0013"
 
 	UNDEFINED = "UNDEFINED"
 )
@@ -81,6 +82,7 @@ var ErrMap = map[string]string{
 	REPO0010: "failed to create category",
 	REPO0011: "failed to find category",
 	REPO0012: "failed to find blog",
+	REPO0013: "failed to delete category",
 
 	UNDEFINED: "undefined",
 }

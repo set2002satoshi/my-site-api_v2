@@ -37,6 +37,13 @@ func (repo *CategoryRepository) Create(db *gorm.DB, obj *models.ActiveCategoryMo
 	return repo.toModel(ce)
 }
 
+func (repo *CategoryRepository) DeleteById(db *gorm.DB, id int) error {
+	if err := db.Unscoped().Delete(&entities.TBLCategoryEntity{}, id).Error; err != nil {
+		return errors.Wrap(errors.NewCustomError(), errors.REPO0001, err.Error())
+	}
+	return nil
+}
+
 func (repo *CategoryRepository) toEntity(obj *models.ActiveCategoryModel) (*entities.TBLCategoryEntity, error) {
 	return &entities.TBLCategoryEntity{
 		CategoryId:   int(obj.GetCategoryId()),
