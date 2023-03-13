@@ -19,7 +19,7 @@ type ActiveBlogModel struct {
 func NewActiveBlogModel(
 	blogId int,
 	userId int,
-	nickName   string,
+	nickName string,
 	title string,
 	context string,
 	revision int,

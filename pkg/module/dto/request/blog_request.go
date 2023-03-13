@@ -13,7 +13,7 @@ type (
 		Context string `json:"context"`
 	}
 	BlogUpdateRequest struct {
-		BlogId int `json:"blogId"`
+		BlogId int `json:"blog_id"`
 		Title string `json:"title"`
 		Context string `json:"context"`
 		Revision int `json:"revision"`

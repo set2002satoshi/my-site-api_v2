@@ -44,6 +44,7 @@ func (r *Routing) setRouting() {
 		blogNotLoggedIn.POST("/blogs/get", func(c *gin.Context) { blogsController.Find(c) })
 		blogNotLoggedIn.POST("/blogs/get/all", func(c *gin.Context) { blogsController.FindAll(c) })
 		blogNotLoggedIn.POST("/blogs/create", func(c *gin.Context) { blogsController.Create(c) })
+		blogNotLoggedIn.POST("/blogs/update", func(c *gin.Context) { blogsController.Update(c) })
 		blogNotLoggedIn.POST("/blogs/delete", func(c *gin.Context) { blogsController.DeleteById(c) })
 	}
 
