@@ -46,6 +46,17 @@ func (repo *ActiveBlogRepository) Create(db *gorm.DB, obj *models.ActiveBlogMode
 	return repo.toModel(be)
 }
 
+func (repo *ActiveBlogRepository) Update(tx *gorm.DB, obj *models.ActiveBlogModel) (*models.ActiveBlogModel, error) {
+	be, err := repo.toEntity(obj)
+	if err != nil {
+		return new(models.ActiveBlogModel), errors.Wrap(errors.NewCustomError(), errors.REPO0001, err.Error())
+	}
+	if err := tx.Select("title", "context", "revision", "updated_at").Updates(&be).Error; err != nil {
+		return nil, errors.Wrap(errors.NewCustomError(), errors.REPO0004, err.Error())
+	}
+	return repo.toModel(be)
+}
+
 func (repo *ActiveBlogRepository) DeleteById(tx *gorm.DB, id int) error {
 	if err := tx.Unscoped().Delete(&entities.TBLBlogEntity{}, id).Error; err != nil {
 		return err
