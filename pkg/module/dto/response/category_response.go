@@ -1,6 +1,6 @@
 package response
 
-import "github.com/set2002satoshi/my-site-api/pkg/module/customs/errors"
+import "github.com/set2002satoshi/my-site-api_v2/pkg/module/customs/errors"
 
 type (
 	FindAllCategoryResponse struct {
