@@ -62,10 +62,12 @@ func (db *DB) DBInit() {
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.TBLUserEntity{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.TBLBlogEntity{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.TBLCategoryEntity{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.TBLBlogWithCategoriesEntity{}))
 
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.HistoryUserEntity{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.HistoryBlogEntity{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.HistoryCategoryEntity{}))
+	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.HistoryBlogWithCategoriesEntity{}))
 
 	if err != nil {
 		panic(errors.DB0002)
