@@ -68,7 +68,7 @@ func (uc *BlogController) createToModel(ctx *gin.Context, req *request.BlogCreat
 		categoryIds[i] = cm
 	}
 
-	userId := 1
+	userId := 1 // 固定ユーザー
 
 	return models.NewActiveBlogModel(
 		types.INITIAL_ID,

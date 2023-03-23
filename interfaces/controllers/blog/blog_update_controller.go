@@ -67,7 +67,7 @@ func (uc *BlogController) updateToModel(ctx *gin.Context, req *request.BlogUpdat
 		categoryIds[i] = cm
 	}
 
-	userId := 1
+	userId := 1 // 固定ユーザー
 
 	return models.NewActiveBlogModel(
 		req.BlogId,

@@ -52,7 +52,7 @@ func (uc *UserController) updateToModel(ctx *gin.Context, req *request.UserUpdat
 	}
 
 	return models.NewActiveUserModel(
-		req.Id,
+		req.Id, // ここは変更するべき点
 		req.Name,
 		req.Email,
 		req.Password,
