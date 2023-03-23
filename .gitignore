@@ -3,3 +3,5 @@ aws_region.tf
 **/.terraform/*
 *.tfstate
 *.tfstate.*
+**/.vscode/*
+**/.devcontainer/*

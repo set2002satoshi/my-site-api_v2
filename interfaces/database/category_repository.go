@@ -8,9 +8,9 @@ import (
 	"gorm.io/gorm"
 )
 
-type CategoryRepository struct{}
+type ActiveCategoryRepository struct{}
 
-func (repo *CategoryRepository) FindById(db *gorm.DB, id int) (*models.ActiveCategoryModel, error) {
+func (repo *ActiveCategoryRepository) FindById(db *gorm.DB, id int) (*models.ActiveCategoryModel, error) {
 	var acquisitionCategory *entities.TBLCategoryEntity
 	if err := db.First(&acquisitionCategory, id).Error; err != nil {
 		return &models.ActiveCategoryModel{}, err
@@ -18,15 +18,23 @@ func (repo *CategoryRepository) FindById(db *gorm.DB, id int) (*models.ActiveCat
 	return repo.toModel(acquisitionCategory)
 }
 
-func (repo *CategoryRepository) FindAll(db *gorm.DB) ([]*models.ActiveCategoryModel, error) {
-	var category []*entities.TBLCategoryEntity
-	if err := db.Find(&category).Error; err != nil {
+func (repo *ActiveCategoryRepository) FindByIds(db *gorm.DB, ids []int) ([]*models.ActiveCategoryModel, error) {
+	var categories []*entities.TBLCategoryEntity
+	if err := db.Find(&categories, ids).Error; err != nil {
 		return []*models.ActiveCategoryModel{}, err
 	}
-	return repo.toModels(category)
+	return repo.toModels(categories)
 }
 
-func (repo *CategoryRepository) Create(db *gorm.DB, obj *models.ActiveCategoryModel) (*models.ActiveCategoryModel, error) {
+func (repo *ActiveCategoryRepository) FindAll(db *gorm.DB) ([]*models.ActiveCategoryModel, error) {
+	var categories []*entities.TBLCategoryEntity
+	if err := db.Find(&categories).Error; err != nil {
+		return []*models.ActiveCategoryModel{}, err
+	}
+	return repo.toModels(categories)
+}
+
+func (repo *ActiveCategoryRepository) Create(db *gorm.DB, obj *models.ActiveCategoryModel) (*models.ActiveCategoryModel, error) {
 	ce, err := repo.toEntity(obj)
 	if err != nil {
 		return nil, errors.Wrap(errors.NewCustomError(), errors.REPO0001, err.Error())
@@ -37,14 +45,14 @@ func (repo *CategoryRepository) Create(db *gorm.DB, obj *models.ActiveCategoryMo
 	return repo.toModel(ce)
 }
 
-func (repo *CategoryRepository) DeleteById(db *gorm.DB, id int) error {
+func (repo *ActiveCategoryRepository) DeleteById(db *gorm.DB, id int) error {
 	if err := db.Unscoped().Delete(&entities.TBLCategoryEntity{}, id).Error; err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.REPO0001, err.Error())
 	}
 	return nil
 }
 
-func (repo *CategoryRepository) toEntity(obj *models.ActiveCategoryModel) (*entities.TBLCategoryEntity, error) {
+func (repo *ActiveCategoryRepository) toEntity(obj *models.ActiveCategoryModel) (*entities.TBLCategoryEntity, error) {
 	return &entities.TBLCategoryEntity{
 		CategoryId:   int(obj.GetCategoryId()),
 		CategoryName: obj.GetCategoryName(),
@@ -53,7 +61,7 @@ func (repo *CategoryRepository) toEntity(obj *models.ActiveCategoryModel) (*enti
 	}, nil
 }
 
-func (repo *CategoryRepository) toModel(obj *entities.TBLCategoryEntity) (*models.ActiveCategoryModel, error) {
+func (repo *ActiveCategoryRepository) toModel(obj *entities.TBLCategoryEntity) (*models.ActiveCategoryModel, error) {
 	return models.NewActiveCategoryModel(
 		obj.CategoryId,
 		obj.CategoryName,
@@ -63,7 +71,7 @@ func (repo *CategoryRepository) toModel(obj *entities.TBLCategoryEntity) (*model
 	)
 }
 
-func (repo *CategoryRepository) toModels(obj []*entities.TBLCategoryEntity) ([]*models.ActiveCategoryModel, error) {
+func (repo *ActiveCategoryRepository) toModels(obj []*entities.TBLCategoryEntity) ([]*models.ActiveCategoryModel, error) {
 	models := make([]*models.ActiveCategoryModel, len(obj))
 	for i, e := range obj {
 		model, err := repo.toModel(e)

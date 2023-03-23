@@ -1,8 +1,8 @@
 package entities
 
 type HistoryBlogWithCategoriesEntity struct {
-	HistoryID  int `gorm:"primaryKey"`
-	Id         int
+	Id         int `gorm:"primaryKey"`
+	ActiveId   string
 	CategoryId int
 	BlogId     int
 }

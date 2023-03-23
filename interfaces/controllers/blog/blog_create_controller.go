@@ -26,6 +26,7 @@ func (uc *BlogController) Create(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, errors.Response(errors.Wrap(errors.NewCustomError(), errors.ERR0001, err.Error()), res))
 		return
 	}
+
 	// skip Validation
 
 	reqModel, err := uc.createToModel(ctx, req)
@@ -52,6 +53,21 @@ func (uc *BlogController) createToModel(ctx *gin.Context, req *request.BlogCreat
 	// }
 	// userId, _ := strconv.Atoi(userSId.(string))
 
+	categoryIds := make([]*models.ActiveCategoryModel, len(req.CategoryIds))
+	for i, category := range req.CategoryIds {
+		cm, err := models.NewActiveCategoryModel(
+			category.Id,
+			types.DEFAULT_NAME,
+			types.INITIAL_REVISION,
+			time.Time{},
+			time.Time{},
+		)
+		if err != nil {
+			return &models.ActiveBlogModel{}, errors.Add(errors.NewCustomError(), errors.ERR0004)
+		}
+		categoryIds[i] = cm
+	}
+
 	userId := 1
 
 	return models.NewActiveBlogModel(
@@ -60,6 +76,7 @@ func (uc *BlogController) createToModel(ctx *gin.Context, req *request.BlogCreat
 		types.DEFAULT_NAME,
 		req.Title,
 		req.Context,
+		categoryIds,
 		types.INITIAL_REVISION,
 		time.Time{},
 		time.Time{},

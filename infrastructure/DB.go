@@ -68,6 +68,13 @@ func (db *DB) DBInit() {
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.HistoryBlogEntity{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.HistoryCategoryEntity{}))
 	err = errors.Combine(err, DBEngine.AutoMigrate(&entities.HistoryBlogWithCategoriesEntity{}))
+ 
+	tableNames, _ := DBEngine.Migrator().GetTables()
+	fmt.Println("====== created table =======")
+	for i, name := range tableNames {
+		fmt.Println(i,":",name)
+	}
+	fmt.Println("=========== end ============")
 
 	if err != nil {
 		panic(errors.DB0002)

@@ -52,6 +52,21 @@ func (uc *BlogController) updateToModel(ctx *gin.Context, req *request.BlogUpdat
 	// }
 	// userId, _ := strconv.Atoi(userSId.(string))
 
+	categoryIds := make([]*models.ActiveCategoryModel, len(req.CategoryIds))
+	for i, category := range req.CategoryIds {
+		cm, err := models.NewActiveCategoryModel(
+			category.Id,
+			types.DEFAULT_NAME,
+			types.INITIAL_REVISION,
+			time.Time{},
+			time.Time{},
+		)
+		if err != nil {
+			return &models.ActiveBlogModel{}, errors.Add(errors.NewCustomError(), errors.ERR0004)
+		}
+		categoryIds[i] = cm
+	}
+
 	userId := 1
 
 	return models.NewActiveBlogModel(
@@ -60,6 +75,7 @@ func (uc *BlogController) updateToModel(ctx *gin.Context, req *request.BlogUpdat
 		types.DEFAULT_NAME,
 		req.Title,
 		req.Context,
+		categoryIds,
 		req.Revision,
 		time.Time{},
 		time.Time{},

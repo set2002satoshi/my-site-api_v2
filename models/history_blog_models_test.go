@@ -14,12 +14,13 @@ func TestHistoryBlogModel(t *testing.T) {
 		UpdatedAt: time.Date(2022, 4, 1, 9, 0, 0, 0, time.UTC),
 	}
 	type args struct {
-		blogId     int
-		activeId   int
-		userId     int
-		title      string
-		context    string
-		auditTrail *types.AuditTrail
+		blogId      int
+		activeId    int
+		userId      int
+		title       string
+		context     string
+		categoryIds []*HistoryCategoryModel
+		auditTrail  *types.AuditTrail
 	}
 	tests := []struct {
 		name    string
@@ -29,52 +30,55 @@ func TestHistoryBlogModel(t *testing.T) {
 		{
 			name: "ok",
 			args: args{
-				blogId:     1,
-				activeId:   1,
-				userId:     1,
-				title:      "test title",
-				context:    "test context",
-				auditTrail: a,
+				blogId:      1,
+				activeId:    1,
+				userId:      1,
+				title:       "test title",
+				context:     "test context",
+				categoryIds: []*HistoryCategoryModel{},
+				auditTrail:  a,
 			},
 			wantErr: true,
 		},
 		{
 			name: "ng blog id (negative number)",
 			args: args{
-				blogId:     -1,
-				activeId:   1,
-				userId:     1,
-				title:      "test title",
-				context:    "test context",
-				auditTrail: a,
+				blogId:      -1,
+				activeId:    1,
+				userId:      1,
+				title:       "test title",
+				context:     "test context",
+				categoryIds: []*HistoryCategoryModel{},
+				auditTrail:  a,
 			},
 			wantErr: false,
 		},
 		{
 			name: "ng active id (negative number)",
 			args: args{
-				blogId:     1,
-				activeId:   -1,
-				userId:     1,
-				title:      "test title",
-				context:    "test context",
-				auditTrail: a,
+				blogId:      1,
+				activeId:    -1,
+				userId:      1,
+				title:       "test title",
+				context:     "test context",
+				categoryIds: []*HistoryCategoryModel{},
+				auditTrail:  a,
 			},
 			wantErr: false,
 		},
 		{
 			name: "ng (userId zero)",
 			args: args{
-				blogId:     1,
-				activeId:   1,
-				userId:     0,
-				title:      "test title",
-				context:    "test context",
-				auditTrail: a,
+				blogId:      1,
+				activeId:    1,
+				userId:      0,
+				title:       "test title",
+				context:     "test context",
+				categoryIds: []*HistoryCategoryModel{},
+				auditTrail:  a,
 			},
 			wantErr: false,
 		},
-		
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -84,6 +88,7 @@ func TestHistoryBlogModel(t *testing.T) {
 				tt.args.userId,
 				tt.args.title,
 				tt.args.context,
+				tt.args.categoryIds,
 				int(tt.args.auditTrail.Revision),
 				tt.args.auditTrail.CreatedAt,
 				tt.args.auditTrail.UpdatedAt,

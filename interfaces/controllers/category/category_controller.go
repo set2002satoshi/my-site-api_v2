@@ -16,7 +16,7 @@ func NewCategoryController(db config.DB) *CategoryController {
 	return &CategoryController{
 		Interactor: service.CategoryInteractor{
 			DB:           &config.DBRepository{DB: db},
-			CategoryRepo: &database.CategoryRepository{},
+			CategoryRepo: &database.ActiveCategoryRepository{},
 			// HistoryCategoryRepo: &database.HistoryCategoryRepository{},
 		},
 	}

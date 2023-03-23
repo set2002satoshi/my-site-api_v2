@@ -8,12 +8,13 @@ import (
 )
 
 type ActiveBlogModel struct {
-	blogId     types.IDENTIFICATION
-	userId     types.IDENTIFICATION
-	nickName   string
-	title      string
-	context    string
-	auditTrail *types.AuditTrail
+	blogId      types.IDENTIFICATION
+	userId      types.IDENTIFICATION
+	nickName    string
+	title       string
+	context     string
+	categoryIds []*ActiveCategoryModel
+	auditTrail  *types.AuditTrail
 }
 
 func NewActiveBlogModel(
@@ -22,6 +23,7 @@ func NewActiveBlogModel(
 	nickName string,
 	title string,
 	context string,
+	categoryIds []*ActiveCategoryModel,
 	revision int,
 	createdAt time.Time,
 	updatedAt time.Time,
@@ -34,6 +36,7 @@ func NewActiveBlogModel(
 	err = errors.Combine(err, abm.setNickName(nickName))
 	err = errors.Combine(err, abm.setTitle(title))
 	err = errors.Combine(err, abm.setContext(context))
+	err = errors.Combine(err, abm.setCategoryIds(categoryIds))
 	if err != nil {
 		return new(ActiveBlogModel), err
 	}
@@ -74,6 +77,10 @@ func (abm *ActiveBlogModel) GetContext() string {
 	return abm.context
 }
 
+func (abm *ActiveBlogModel) GetCategoryIds() []*ActiveCategoryModel {
+	return abm.categoryIds
+}
+
 func (abm *ActiveBlogModel) GetAuditTrail() *types.AuditTrail {
 	return abm.auditTrail
 }
@@ -108,6 +115,11 @@ func (abm *ActiveBlogModel) setTitle(Title string) error {
 
 func (abm *ActiveBlogModel) setContext(Context string) error {
 	abm.context = Context
+	return nil
+}
+
+func (abm *ActiveBlogModel) setCategoryIds(ids []*ActiveCategoryModel) error {
+	abm.categoryIds = ids
 	return nil
 }
 

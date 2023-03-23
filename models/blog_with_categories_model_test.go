@@ -6,7 +6,7 @@ import (
 
 func TestActiveBlogWithCategoryModel(t *testing.T) {
 	type args struct {
-		id         int
+		id         string
 		categoryId int
 		blogId     int
 	}
@@ -18,25 +18,25 @@ func TestActiveBlogWithCategoryModel(t *testing.T) {
 		{
 			name: "ok",
 			args: args{
-				id:         1,
+				id:         "1_1",
 				categoryId: 1,
 				blogId:     1,
 			},
 			wantErr: true,
 		},
 		{
-			name: "ng (id negative number)",
+			name: "ng (id nil)",
 			args: args{
-				id:         -1,
+				id:         "",
 				categoryId: 1,
 				blogId:     1,
 			},
-			wantErr: false,
+			wantErr: true,
 		},
 		{
 			name: "ng (categoryId negative number)",
 			args: args{
-				id:         1,
+				id:         "",
 				categoryId: -1,
 				blogId:     1,
 			},
@@ -45,7 +45,7 @@ func TestActiveBlogWithCategoryModel(t *testing.T) {
 		{
 			name: "ng (blogId negative number)",
 			args: args{
-				id:         1,
+				id:         "",
 				categoryId: 1,
 				blogId:     -1,
 			},

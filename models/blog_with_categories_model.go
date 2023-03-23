@@ -6,13 +6,13 @@ import (
 )
 
 type ActiveBlogWithCategoryModel struct {
-	Id         types.IDENTIFICATION
+	Id         string
 	CategoryId types.IDENTIFICATION
 	BlogId     types.IDENTIFICATION
 }
 
 func NewActiveBlogWithCategoryModel(
-	id int,
+	id string,
 	categoryId int,
 	blogId int,
 ) (*ActiveBlogWithCategoryModel, error) {
@@ -28,7 +28,7 @@ func NewActiveBlogWithCategoryModel(
 	return abc, nil
 }
 
-func (abc *ActiveBlogWithCategoryModel) GetId() types.IDENTIFICATION {
+func (abc *ActiveBlogWithCategoryModel) GetId() string {
 	return abc.Id
 }
 
@@ -40,12 +40,8 @@ func (abc *ActiveBlogWithCategoryModel) GetBlogId() types.IDENTIFICATION {
 	return abc.BlogId
 }
 
-func (abc *ActiveBlogWithCategoryModel) setId(id int) error {
-	i, err := types.NewIDENTIFICATION(id)
-	if err != nil {
-		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
-	}
-	abc.Id = i
+func (abc *ActiveBlogWithCategoryModel) setId(id string) error {
+	abc.Id = id
 	return nil
 }
 

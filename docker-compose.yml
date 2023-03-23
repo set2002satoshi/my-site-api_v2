@@ -9,6 +9,7 @@ services:
     volumes:
       - ./:/go/app/src
     ports:
+    #  - 8000:80 // デバック用
      - 8000:8080
     depends_on:
      - mysql

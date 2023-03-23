@@ -8,12 +8,13 @@ import (
 )
 
 type HistoryBlogModel struct {
-	blogId     types.IDENTIFICATION
-	activeId   types.IDENTIFICATION
-	userId     types.IDENTIFICATION
-	title      string
-	context    string
-	auditTrail *types.AuditTrail
+	blogId      types.IDENTIFICATION
+	activeId    types.IDENTIFICATION
+	userId      types.IDENTIFICATION
+	title       string
+	context     string
+	categoryIds []*HistoryCategoryModel
+	auditTrail  *types.AuditTrail
 }
 
 func NewHistoryBlogModel(
@@ -22,6 +23,7 @@ func NewHistoryBlogModel(
 	userId int,
 	title string,
 	context string,
+	categoryIds []*HistoryCategoryModel,
 	revision int,
 	createdAt time.Time,
 	updatedAt time.Time,
@@ -34,6 +36,7 @@ func NewHistoryBlogModel(
 	err = errors.Combine(err, hbm.setUserId(userId))
 	err = errors.Combine(err, hbm.setTitle(title))
 	err = errors.Combine(err, hbm.setContext(context))
+	err = errors.Combine(err, hbm.setCategoryIds(categoryIds))
 	if err != nil {
 		return new(HistoryBlogModel), err
 	}
@@ -54,73 +57,82 @@ func NewHistoryBlogModel(
 
 }
 
-func (abm *HistoryBlogModel) GetBlogId() types.IDENTIFICATION {
-	return abm.blogId
+func (hbm *HistoryBlogModel) GetBlogId() types.IDENTIFICATION {
+	return hbm.blogId
 }
 
-func (abm *HistoryBlogModel) GetUserId() types.IDENTIFICATION {
-	return abm.userId
+func (hbm *HistoryBlogModel) GetUserId() types.IDENTIFICATION {
+	return hbm.userId
 }
 
-func (abm *HistoryBlogModel) GetActiveId() types.IDENTIFICATION {
-	return abm.activeId
+func (hbm *HistoryBlogModel) GetActiveId() types.IDENTIFICATION {
+	return hbm.activeId
 
 }
 
-func (abm *HistoryBlogModel) GetTitle() string {
-	return abm.title
+func (hbm *HistoryBlogModel) GetTitle() string {
+	return hbm.title
 }
 
-func (abm *HistoryBlogModel) GetContext() string {
-	return abm.context
+func (hbm *HistoryBlogModel) GetContext() string {
+	return hbm.context
 }
 
-func (abm *HistoryBlogModel) GetAuditTrail() *types.AuditTrail {
-	return abm.auditTrail
+func (hbm *HistoryBlogModel) GetCategoryIds() []*HistoryCategoryModel {
+	return hbm.categoryIds
 }
 
-func (abm *HistoryBlogModel) setBlogId(blogId int) error {
+func (hbm *HistoryBlogModel) GetAuditTrail() *types.AuditTrail {
+	return hbm.auditTrail
+}
+
+func (hbm *HistoryBlogModel) setBlogId(blogId int) error {
 	i, err := types.NewIDENTIFICATION(blogId)
 	if err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
 	}
-	abm.blogId = i
+	hbm.blogId = i
 	return nil
 }
 
-func (abm *HistoryBlogModel) setActiveId(activeId int) error {
+func (hbm *HistoryBlogModel) setActiveId(activeId int) error {
 	i, err := types.NewOneOrMoreIDENTIFICATION(activeId)
 	if err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
 	}
-	abm.activeId = i
+	hbm.activeId = i
 	return nil
 }
 
-func (abm *HistoryBlogModel) setUserId(UserId int) error {
+func (hbm *HistoryBlogModel) setUserId(UserId int) error {
 	i, err := types.NewOneOrMoreIDENTIFICATION(UserId)
 	if err != nil {
 		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
 	}
-	abm.userId = i
+	hbm.userId = i
 	return nil
 }
 
-func (abm *HistoryBlogModel) setTitle(Title string) error {
-	abm.title = Title
+func (hbm *HistoryBlogModel) setTitle(Title string) error {
+	hbm.title = Title
 	return nil
 }
 
-func (abm *HistoryBlogModel) setContext(Context string) error {
-	abm.context = Context
+func (hbm *HistoryBlogModel) setContext(Context string) error {
+	hbm.context = Context
 	return nil
 }
 
-func (abm *HistoryBlogModel) setAuditTrail(auditTrail *types.AuditTrail) error {
-	abm.auditTrail = auditTrail
+func (hbm *HistoryBlogModel) setCategoryIds(ids []*HistoryCategoryModel) error {
+	hbm.categoryIds = ids
 	return nil
 }
 
-func (abm *HistoryBlogModel) Validation() error {
+func (hbm *HistoryBlogModel) setAuditTrail(auditTrail *types.AuditTrail) error {
+	hbm.auditTrail = auditTrail
+	return nil
+}
+
+func (hbm *HistoryBlogModel) Validation() error {
 	return nil
 }

@@ -10,18 +10,9 @@ import (
 
 type ActiveBlogRepository struct{}
 
-type BlogModel struct {
-	BlogId     types.IDENTIFICATION
-	UserId     types.IDENTIFICATION
-	Nickname   string
-	Title      string
-	Context    string
-	AuditTrail *types.AuditTrail
-}
-
 func (repo *ActiveBlogRepository) FindById(db *gorm.DB, id int) (*models.ActiveBlogModel, error) {
 	var blog *entities.BlogWithNicknameEntity
-	if err := db.Model(&entities.TBLBlogEntity{}).Select("tbl_blog_entities.*, tbl_user_entities.nickname").Joins("left join tbl_user_entities on tbl_blog_entities.user_id = tbl_user_entities.user_id").Scan(&blog).Error; err != nil {
+	if err := db.Model(&entities.TBLBlogEntity{}).Where("tbl_blog_entities.blog_id =?", id).Select("tbl_blog_entities.*, tbl_user_entities.nickname").Joins("left join tbl_user_entities on tbl_blog_entities.user_id = tbl_user_entities.user_id").Scan(&blog).Error; err != nil {
 		return new(models.ActiveBlogModel), nil
 	}
 	return repo.joinTBLToModel(blog)
@@ -71,6 +62,7 @@ func (repo *ActiveBlogRepository) toModel(obj *entities.TBLBlogEntity) (*models.
 		types.DEFAULT_NAME,
 		obj.Title,
 		obj.Context,
+		[]*models.ActiveCategoryModel{},
 		obj.Revision,
 		obj.CreatedAt,
 		obj.UpdatedAt,
@@ -84,6 +76,7 @@ func (repo *ActiveBlogRepository) joinTBLToModel(obj *entities.BlogWithNicknameE
 		obj.Nickname,
 		obj.Title,
 		obj.Context,
+		[]*models.ActiveCategoryModel{},
 		obj.Revision,
 		obj.CreatedAt,
 		obj.UpdatedAt,

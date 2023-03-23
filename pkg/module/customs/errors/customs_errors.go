@@ -7,6 +7,7 @@ const (
 	ERR0001 = "ERROR0001"
 	ERR0002 = "ERROR0002"
 	ERR0003 = "ERROR0003"
+	ERR0004 = "ERROR0004"
 
 	TYPE0001 = "TYPE0001"
 
@@ -19,6 +20,7 @@ const (
 	EN0004 = "EN0004"
 	EN0005 = "EN0005"
 	EN0006 = "EN0006"
+	EN0007 = "EN0007"
 
 	SE0000 = "SE0000"
 	SE0001 = "SE0001"
@@ -41,6 +43,9 @@ const (
 	REPO0011 = "REPO0011"
 	REPO0012 = "REPO0012"
 	REPO0013 = "REPO0013"
+	REPO0014 = "REPO0014"
+	REPO0015 = "REPO0015"
+	REPO0016 = "REPO0016"
 
 	UNDEFINED = "UNDEFINED"
 )
@@ -50,6 +55,7 @@ var ErrMap = map[string]string{
 	ERR0001: "failure BindJSON",
 	ERR0002: "failure to Model",
 	ERR0003: "couldn't get userID",
+	ERR0004: "categoryId not found",
 
 	TYPE0001: "id is less than or equal to zero",
 
@@ -62,6 +68,7 @@ var ErrMap = map[string]string{
 	EN0004: "did not match revision number",
 	EN0005: "couldn't up revision number",
 	EN0006: "incorrect flag",
+	EN0007: "nil active id",
 
 	SE0001: "couldn't load secret",
 	SE0002: "invalid password",
@@ -83,6 +90,9 @@ var ErrMap = map[string]string{
 	REPO0011: "failed to find category",
 	REPO0012: "failed to find blog",
 	REPO0013: "failed to delete category",
+	REPO0014: "failed to create relational table for blog and category",
+	REPO0015: "failed to delete all relational table for blog and category",
+	REPO0016: "failed to create history relational table for blog and category",
 
 	UNDEFINED: "undefined",
 }
