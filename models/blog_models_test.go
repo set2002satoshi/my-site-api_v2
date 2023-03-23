@@ -14,12 +14,13 @@ func TestActiveBlogModel(t *testing.T) {
 		UpdatedAt: time.Date(2022, 4, 1, 9, 0, 0, 0, time.UTC),
 	}
 	type args struct {
-		blogId     int
-		userId     int
-		nickname string
-		title      string
-		context    string
-		auditTrail *types.AuditTrail
+		blogId      int
+		userId      int
+		nickname    string
+		title       string
+		context     string
+		categoryIds []*ActiveCategoryModel
+		auditTrail  *types.AuditTrail
 	}
 	tests := []struct {
 		name    string
@@ -29,36 +30,39 @@ func TestActiveBlogModel(t *testing.T) {
 		{
 			name: "ok",
 			args: args{
-				blogId:     1,
-				userId:     1,
-				nickname: "name",
-				title:      "test title",
-				context:    "test context",
-				auditTrail: a,
+				blogId:      1,
+				userId:      1,
+				nickname:    "name",
+				title:       "test title",
+				context:     "test context",
+				categoryIds: []*ActiveCategoryModel{},
+				auditTrail:  a,
 			},
 			wantErr: true,
 		},
 		{
 			name: "ng (negative number)",
 			args: args{
-				blogId:     -1,
-				userId:     -1,
-				nickname: "name",
-				title:      "test title",
-				context:    "test context",
-				auditTrail: a,
+				blogId:      -1,
+				userId:      -1,
+				nickname:    "name",
+				title:       "test title",
+				context:     "test context",
+				categoryIds: []*ActiveCategoryModel{},
+				auditTrail:  a,
 			},
 			wantErr: false,
 		},
 		{
 			name: "ng (userId zero)",
 			args: args{
-				blogId:     -1,
-				userId:     0,
-				nickname: "name",
-				title:      "test title",
-				context:    "test context",
-				auditTrail: a,
+				blogId:      -1,
+				userId:      0,
+				nickname:    "name",
+				title:       "test title",
+				context:     "test context",
+				categoryIds: []*ActiveCategoryModel{},
+				auditTrail:  a,
 			},
 			wantErr: false,
 		},
@@ -71,6 +75,7 @@ func TestActiveBlogModel(t *testing.T) {
 				tt.args.nickname,
 				tt.args.title,
 				tt.args.context,
+				tt.args.categoryIds,
 				int(tt.args.auditTrail.Revision),
 				tt.args.auditTrail.CreatedAt,
 				tt.args.auditTrail.UpdatedAt,

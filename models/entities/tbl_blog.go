@@ -14,12 +14,12 @@ type TBLBlogEntity struct {
 
 // joinのクエリー用のstructです。 ※ マイグレーションしないように注意
 type BlogWithNicknameEntity struct {
-	BlogId    int       `gorm:"-:migration"`
-	UserId    int       `gorm:"-:migration"`
-	Nickname  string    `gorm:"-:migration"`
-	Title     string    `gorm:"-:migration"`
-	Context   string    `gorm:"-:migration"`
-	Revision  int       `gorm:"-:migration"`
-	CreatedAt time.Time `gorm:"-:migration"`
-	UpdatedAt time.Time `gorm:"-:migration"`
+	BlogId     int                  `gorm:"-:migration"`
+	UserId     int                  `gorm:"-:migration"`
+	Nickname   string               `gorm:"-:migration"`
+	Title      string               `gorm:"-:migration"`
+	Context    string               `gorm:"-:migration"`
+	Revision   int                  `gorm:"-:migration"`
+	CreatedAt  time.Time            `gorm:"-:migration"`
+	UpdatedAt  time.Time            `gorm:"-:migration"`
 }

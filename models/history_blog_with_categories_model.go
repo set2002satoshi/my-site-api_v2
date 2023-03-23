@@ -7,14 +7,14 @@ import (
 
 type HistoryBlogWithCategoryModel struct {
 	Id         types.IDENTIFICATION
-	ActiveId   types.IDENTIFICATION
+	ActiveId   string
 	CategoryId types.IDENTIFICATION
 	BlogId     types.IDENTIFICATION
 }
 
 func NewHistoryBlogWithCategoryModel(
 	id int,
-	activeId int,
+	activeId string,
 	categoryId int,
 	blogId int,
 ) (*HistoryBlogWithCategoryModel, error) {
@@ -35,7 +35,7 @@ func (abc *HistoryBlogWithCategoryModel) GetId() types.IDENTIFICATION {
 	return abc.Id
 }
 
-func (abc *HistoryBlogWithCategoryModel) GetActiveId() types.IDENTIFICATION {
+func (abc *HistoryBlogWithCategoryModel) GetActiveId() string {
 	return abc.ActiveId
 }
 
@@ -56,12 +56,12 @@ func (abc *HistoryBlogWithCategoryModel) setId(id int) error {
 	return nil
 }
 
-func (abc *HistoryBlogWithCategoryModel) setActiveId(activeId int) error {
-	i, err := types.NewIDENTIFICATION(activeId)
-	if err != nil {
-		return errors.Wrap(errors.NewCustomError(), errors.EN0001, err.Error())
+func (abc *HistoryBlogWithCategoryModel) setActiveId(activeId string) error {
+	if activeId == "" {
+		return errors.Add(errors.NewCustomError(), errors.EN0007)
 	}
-	abc.ActiveId = i
+	// 他にもバリデーションを考えよう
+	abc.ActiveId = activeId
 	return nil
 }
 

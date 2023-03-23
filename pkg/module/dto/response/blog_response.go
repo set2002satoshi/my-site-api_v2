@@ -50,13 +50,13 @@ type (
 
 type (
 	ActiveBlogEntity struct {
-		BlogId     int                   `json:"blog_id"`
-		UserId     int                   `json:"user_id"`
-		Nickname   string                `json:"nickname"`
-		Title      string                `json:"title"`
-		Context    string                `json:"content"`
-		// Categories []ActiveCategoryModel `json:"categories"`
-		Option     Options               `json:"option"`
+		BlogId     int                     `json:"blog_id"`
+		UserId     int                     `json:"user_id"`
+		Nickname   string                  `json:"nickname"`
+		Title      string                  `json:"title"`
+		Context    string                  `json:"content"`
+		Categories []*ActiveCategoryEntity `json:"categories"`
+		Option     Options                 `json:"option"`
 	}
 )
 

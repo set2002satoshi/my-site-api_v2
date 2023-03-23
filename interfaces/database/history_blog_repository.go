@@ -29,6 +29,7 @@ func (hbr *HistoryBlogRepository) toModel(obj *entities.HistoryBlogEntity) (*mod
 		obj.UserId,
 		obj.Title,
 		obj.Context,
+		[]*models.HistoryCategoryModel{},
 		obj.Revision,
 		obj.CreatedAt,
 		obj.DeletedAt,

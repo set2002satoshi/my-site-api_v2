@@ -45,7 +45,7 @@ func NewConfig() *Config {
 	c.DB.Test.Password = os.Getenv("DB_PASSWORD")
 	c.DB.Test.DBName = os.Getenv("DB_NAME")
 
-	c.Routing.Port = ":8080"
+	c.Routing.Port = ":80"
 
 	return c
 }
